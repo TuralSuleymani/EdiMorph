@@ -1,0 +1,424 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.ISA.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "ISA",
+  "scope": "interchange-header",
+  "layout": {
+    "kind": "fixed-width-elements",
+    "elementCount": 16,
+    "preserveRaw": true,
+    "noTrailingElementOmission": true
+  },
+  "elements": {
+    "01": {
+      "reference": "ISA01",
+      "dataElementId": "I01",
+      "name": "AuthorizationQualifier",
+      "dataType": "ID",
+      "width": 2,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 2
+        },
+        "allowedValues": [
+          "00",
+          "01",
+          "02",
+          "03",
+          "04",
+          "05",
+          "06"
+        ]
+      }
+    },
+    "02": {
+      "reference": "ISA02",
+      "dataElementId": "I02",
+      "name": "AuthorizationInformation",
+      "dataType": "AN",
+      "width": 10,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 10
+        },
+        "allowAllSpaces": true
+      },
+      "security": {
+        "sensitive": false,
+        "maskInLogs": false
+      }
+    },
+    "03": {
+      "reference": "ISA03",
+      "dataElementId": "I03",
+      "name": "SecurityQualifier",
+      "dataType": "ID",
+      "width": 2,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 2
+        },
+        "allowedValues": [
+          "00",
+          "01"
+        ]
+      }
+    },
+    "04": {
+      "reference": "ISA04",
+      "dataElementId": "I04",
+      "name": "SecurityInformation",
+      "dataType": "AN",
+      "width": 10,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 10
+        },
+        "allowAllSpaces": true
+      },
+      "security": {
+        "sensitive": true,
+        "maskInLogs": true
+      }
+    },
+    "05": {
+      "reference": "ISA05",
+      "dataElementId": "I05",
+      "name": "SenderQualifier",
+      "dataType": "ID",
+      "width": 2,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 2
+        },
+        "allowedValues": [
+          "01",
+          "02",
+          "03",
+          "04",
+          "08",
+          "09",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "AM",
+          "NR",
+          "SN",
+          "ZZ"
+        ]
+      }
+    },
+    "06": {
+      "reference": "ISA06",
+      "dataElementId": "I06",
+      "name": "SenderId",
+      "dataType": "AN",
+      "width": 15,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 15
+        }
+      },
+      "padding": {
+        "character": " ",
+        "direction": "right",
+        "preserveRaw": true,
+        "normalizedValue": "trim-right-spaces"
+      }
+    },
+    "07": {
+      "reference": "ISA07",
+      "dataElementId": "I05",
+      "name": "ReceiverQualifier",
+      "dataType": "ID",
+      "width": 2,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 2
+        },
+        "allowedValues": [
+          "01",
+          "02",
+          "03",
+          "04",
+          "08",
+          "09",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "26",
+          "27",
+          "28",
+          "29",
+          "30",
+          "31",
+          "32",
+          "33",
+          "34",
+          "35",
+          "36",
+          "37",
+          "AM",
+          "NR",
+          "SN",
+          "ZZ"
+        ]
+      }
+    },
+    "08": {
+      "reference": "ISA08",
+      "dataElementId": "I07",
+      "name": "ReceiverId",
+      "dataType": "AN",
+      "width": 15,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 15
+        }
+      },
+      "padding": {
+        "character": " ",
+        "direction": "right",
+        "preserveRaw": true,
+        "normalizedValue": "trim-right-spaces"
+      }
+    },
+    "09": {
+      "reference": "ISA09",
+      "dataElementId": "I08",
+      "name": "InterchangeDate",
+      "dataType": "DT",
+      "width": 6,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 6
+        },
+        "lexicalFormat": "YYMMDD",
+        "calendarDate": true,
+        "centuryResolution": "external-policy"
+      }
+    },
+    "10": {
+      "reference": "ISA10",
+      "dataElementId": "I09",
+      "name": "InterchangeTime",
+      "dataType": "TM",
+      "width": 4,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 4
+        },
+        "lexicalFormat": "HHmm",
+        "timeRange": {
+          "hourMin": 0,
+          "hourMax": 23,
+          "minuteMin": 0,
+          "minuteMax": 59
+        },
+        "timezone": "external-policy"
+      }
+    },
+    "11": {
+      "reference": "ISA11",
+      "dataElementId": "I10",
+      "name": "StandardsIdentifier",
+      "dataType": "ID",
+      "width": 1,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 1
+        },
+        "allowedValues": [
+          "U"
+        ]
+      }
+    },
+    "12": {
+      "reference": "ISA12",
+      "dataElementId": "I11",
+      "name": "InterchangeVersion",
+      "dataType": "ID",
+      "width": 5,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 5
+        },
+        "allowedValues": [
+          "00401"
+        ]
+      }
+    },
+    "13": {
+      "reference": "ISA13",
+      "dataElementId": "I12",
+      "name": "InterchangeControlNumber",
+      "dataType": "N0",
+      "width": 9,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 9
+        },
+        "lexicalFormat": "digits",
+        "preserveLeadingZeros": true
+      }
+    },
+    "14": {
+      "reference": "ISA14",
+      "dataElementId": "I13",
+      "name": "AcknowledgmentRequested",
+      "dataType": "ID",
+      "width": 1,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 1
+        },
+        "allowedValues": [
+          "0",
+          "1"
+        ]
+      }
+    },
+    "15": {
+      "reference": "ISA15",
+      "dataElementId": "I14",
+      "name": "UsageIndicator",
+      "dataType": "ID",
+      "width": 1,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 1
+        },
+        "allowedValues": [
+          "I",
+          "P",
+          "T"
+        ]
+      }
+    },
+    "16": {
+      "reference": "ISA16",
+      "dataElementId": "I15",
+      "name": "ComponentSeparator",
+      "dataType": "AN",
+      "width": 1,
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "physicalLength": {
+          "exact": 1
+        }
+      },
+      "role": "component-separator"
+    }
+  },
+  "rules": [
+    {
+      "id": "ISA-AUTH-NO-INFO",
+      "type": "conditionalExactValue",
+      "when": {
+        "element": "01",
+        "equals": "00"
+      },
+      "then": {
+        "element": "02",
+        "equals": "          "
+      }
+    },
+    {
+      "id": "ISA-SEC-NO-INFO",
+      "type": "conditionalExactValue",
+      "when": {
+        "element": "03",
+        "equals": "00"
+      },
+      "then": {
+        "element": "04",
+        "equals": "          "
+      }
+    },
+    {
+      "id": "ISA-DELIMITER-DISTINCT",
+      "type": "delimiterDistinct",
+      "elements": [
+        "16"
+      ],
+      "includeResolvedSyntaxDelimiters": true
+    }
+  ],
+  "provenance": {
+    "basis": "Uploaded ISA technical reference, 19 Oct 2026",
+    "authoritative": false,
+    "notes": "Validate against licensed ASC X12 directory and applicable partner agreements before production."
+  }
+}

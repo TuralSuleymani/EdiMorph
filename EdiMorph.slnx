@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/EdiMorph.Specifications.X12/EdiMorph.Specifications.X12.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+</Solution>
