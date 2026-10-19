@@ -1,0 +1,23 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.version.004010",
+  "kind": "version",
+  "format": "X12",
+
+  "version": "004010",
+  "displayName": "X12 4010",
+
+  "syntaxRef": "x12.syntax.common",
+
+  "interchange": {
+    "controlVersion": "00401",
+    "envelopeRef": "x12.envelope.v4010"
+  },
+
+  "includes": [
+    "Common/Segments/**/*.rule",
+    "Common/Envelope/envelope.rule",
+    "Transactions/**/structure.rule",
+    "Transactions/**/Segments/**/*.rule"
+  ]
+}

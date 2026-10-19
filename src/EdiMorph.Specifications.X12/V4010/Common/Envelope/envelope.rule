@@ -1,0 +1,91 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.envelope.v4010",
+  "kind": "envelope",
+  "format": "X12",
+  "version": "004010",
+
+  "interchange": {
+    "header": {
+      "segmentRef": "x12.segment.ISA.v4010"
+    },
+    "trailer": {
+      "segmentRef": "x12.segment.IEA.v4010"
+    },
+
+    "groups": {
+      "minOccurs": 1,
+      "maxOccurs": null,
+
+      "header": {
+        "segmentRef": "x12.segment.GS.v4010"
+      },
+      "trailer": {
+        "segmentRef": "x12.segment.GE.v4010"
+      },
+
+      "transactions": {
+        "minOccurs": 1,
+        "maxOccurs": null,
+
+        "headerTag": "ST",
+        "trailerTag": "SE",
+
+        "selection": {
+          "releaseFrom": "group.header.08",
+          "transactionTypeFrom": "transaction.header.01"
+        },
+
+        "structure": "resolved-transaction"
+      }
+    }
+  },
+
+  "rules": [
+    {
+      "id": "interchange-control-match",
+      "scope": "interchange",
+      "type": "fieldEquals",
+      "left": "header.13",
+      "right": "trailer.02",
+      "comparison": "raw"
+    },
+    {
+      "id": "interchange-group-count",
+      "scope": "interchange",
+      "type": "countEqualsField",
+      "collection": "groups",
+      "field": "trailer.01"
+    },
+    {
+      "id": "group-control-match",
+      "scope": "group",
+      "type": "fieldEquals",
+      "left": "header.06",
+      "right": "trailer.02",
+      "comparison": "raw"
+    },
+    {
+      "id": "group-transaction-count",
+      "scope": "group",
+      "type": "countEqualsField",
+      "collection": "transactions",
+      "field": "trailer.01"
+    },
+    {
+      "id": "transaction-control-match",
+      "scope": "transaction",
+      "type": "fieldEquals",
+      "left": "header.02",
+      "right": "trailer.02",
+      "comparison": "raw"
+    },
+    {
+      "id": "transaction-segment-count",
+      "scope": "transaction",
+      "type": "segmentCountEqualsField",
+      "field": "trailer.01",
+      "includeHeaderAndTrailer": true
+    }
+  ]
+}

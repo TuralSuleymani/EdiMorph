@@ -1,0 +1,40 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.syntax.common",
+  "kind": "syntax",
+  "format": "X12",
+
+  "bootstrap": {
+    "strategy": "fixed-header",
+    "tag": "ISA",
+    "positionBase": 0,
+    "positionUnit": "byte",
+
+    "headerLengthIncludingTerminator": 106,
+
+    "elementSeparator": {
+      "offset": 3
+    },
+    "componentSeparator": {
+      "offset": 104
+    },
+    "segmentTerminator": {
+      "offset": 105
+    },
+    "interchangeVersion": {
+      "offset": 84,
+      "length": 5
+    }
+  },
+
+  "tokenization": {
+    "preserveEmptyElements": true,
+    "preserveTrailingEmptyElements": true,
+    "preserveSpaces": true,
+    "preserveSourceLocations": true
+  },
+
+  "delimiterConstraints": {
+    "mustBeDistinct": true
+  }
+}
