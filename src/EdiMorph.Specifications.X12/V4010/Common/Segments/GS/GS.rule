@@ -1,0 +1,636 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.GS.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "GS",
+  "scope": "functional-group-header",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 8,
+    "preserveRaw": true,
+    "noTrailingElementOmission": true,
+    "fixedWidth": false,
+    "elementSeparator": "resolved-from-ISA"
+  },
+  "elements": {
+    "01": {
+      "reference": "GS01",
+      "dataElementId": "479",
+      "name": "FunctionalIdentifierCode",
+      "dataType": "ID",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "exact": 2
+        },
+        "allowEmpty": false,
+        "allowedValues": [
+          "AA",
+          "AB",
+          "AD",
+          "AF",
+          "AG",
+          "AH",
+          "AI",
+          "AK",
+          "AL",
+          "AN",
+          "AO",
+          "AR",
+          "AS",
+          "AT",
+          "AW",
+          "BC",
+          "BE",
+          "BF",
+          "BL",
+          "BS",
+          "CA",
+          "CB",
+          "CC",
+          "CD",
+          "CE",
+          "CF",
+          "CG",
+          "CH",
+          "CI",
+          "CJ",
+          "CK",
+          "CM",
+          "CN",
+          "CO",
+          "CP",
+          "CR",
+          "CS",
+          "CT",
+          "CV",
+          "D3",
+          "D4",
+          "D5",
+          "DA",
+          "DD",
+          "DF",
+          "DI",
+          "DM",
+          "DS",
+          "DX",
+          "EC",
+          "ED",
+          "EI",
+          "ER",
+          "ES",
+          "EV",
+          "EX",
+          "FA",
+          "FB",
+          "FC",
+          "FG",
+          "FH",
+          "FR",
+          "FT",
+          "GB",
+          "GC",
+          "GE",
+          "GF",
+          "GL",
+          "GP",
+          "GR",
+          "GT",
+          "HB",
+          "HC",
+          "HI",
+          "HN",
+          "HP",
+          "HR",
+          "HS",
+          "IA",
+          "IB",
+          "IC",
+          "ID",
+          "IE",
+          "IG",
+          "II",
+          "IJ",
+          "IM",
+          "IN",
+          "IO",
+          "IP",
+          "IR",
+          "IS",
+          "KM",
+          "LA",
+          "LB",
+          "LI",
+          "LN",
+          "LR",
+          "LS",
+          "LT",
+          "MA",
+          "MC",
+          "MD",
+          "ME",
+          "MF",
+          "MG",
+          "MH",
+          "MI",
+          "MJ",
+          "MK",
+          "MM",
+          "MN",
+          "MO",
+          "MP",
+          "MQ",
+          "MR",
+          "MS",
+          "MT",
+          "MV",
+          "MW",
+          "MX",
+          "MY",
+          "NC",
+          "NL",
+          "NP",
+          "NT",
+          "OC",
+          "OG",
+          "OR",
+          "OW",
+          "PA",
+          "PB",
+          "PC",
+          "PD",
+          "PE",
+          "PF",
+          "PG",
+          "PH",
+          "PI",
+          "PJ",
+          "PK",
+          "PL",
+          "PN",
+          "PO",
+          "PQ",
+          "PR",
+          "PS",
+          "PT",
+          "PU",
+          "PV",
+          "PY",
+          "QG",
+          "QM",
+          "QO",
+          "RA",
+          "RB",
+          "RC",
+          "RD",
+          "RE",
+          "RH",
+          "RI",
+          "RJ",
+          "RK",
+          "RL",
+          "RM",
+          "RN",
+          "RO",
+          "RP",
+          "RQ",
+          "RR",
+          "RS",
+          "RT",
+          "RU",
+          "RV",
+          "RW",
+          "RX",
+          "RY",
+          "RZ",
+          "SA",
+          "SB",
+          "SC",
+          "SD",
+          "SE",
+          "SG",
+          "SH",
+          "SI",
+          "SJ",
+          "SL",
+          "SM",
+          "SN",
+          "SO",
+          "SP",
+          "SQ",
+          "SR",
+          "SS",
+          "ST",
+          "SU",
+          "SV",
+          "SW",
+          "TA",
+          "TC",
+          "TD",
+          "TF",
+          "TI",
+          "TM",
+          "TN",
+          "TO",
+          "TP",
+          "TR",
+          "TS",
+          "TT",
+          "TX",
+          "UA",
+          "UB",
+          "UC",
+          "UD",
+          "UI",
+          "UP",
+          "UW",
+          "VA",
+          "VB",
+          "VC",
+          "VD",
+          "VE",
+          "VH",
+          "VI"
+        ]
+      }
+    },
+    "02": {
+      "reference": "GS02",
+      "dataElementId": "142",
+      "name": "ApplicationSenderCode",
+      "dataType": "AN",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 15
+        },
+        "allowEmpty": false
+      }
+    },
+    "03": {
+      "reference": "GS03",
+      "dataElementId": "124",
+      "name": "ApplicationReceiverCode",
+      "dataType": "AN",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 15
+        },
+        "allowEmpty": false
+      }
+    },
+    "04": {
+      "reference": "GS04",
+      "dataElementId": "373",
+      "name": "FunctionalGroupDate",
+      "dataType": "DT",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "exact": 8
+        },
+        "allowEmpty": false,
+        "lexicalFormat": "CCYYMMDD",
+        "calendarDate": true
+      }
+    },
+    "05": {
+      "reference": "GS05",
+      "dataElementId": "337",
+      "name": "FunctionalGroupTime",
+      "dataType": "TM",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 4,
+          "max": 8
+        },
+        "allowEmpty": false,
+        "allowedLengths": [
+          4,
+          6,
+          7,
+          8
+        ],
+        "lexicalFormats": [
+          "HHmm",
+          "HHmmss",
+          "HHmmssS",
+          "HHmmssSS"
+        ],
+        "timeRange": {
+          "hourMin": 0,
+          "hourMax": 23,
+          "minuteMin": 0,
+          "minuteMax": 59,
+          "secondMin": 0,
+          "secondMax": 59,
+          "fractionDigitMin": 0,
+          "fractionDigitMax": 9
+        },
+        "timezone": "external-policy"
+      }
+    },
+    "06": {
+      "reference": "GS06",
+      "dataElementId": "28",
+      "name": "GroupControlNumber",
+      "dataType": "N0",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 9
+        },
+        "allowEmpty": false,
+        "lexicalFormat": "digits",
+        "preserveLeadingZeros": true
+      }
+    },
+    "07": {
+      "reference": "GS07",
+      "dataElementId": "455",
+      "name": "ResponsibleAgencyCode",
+      "dataType": "ID",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 2
+        },
+        "allowEmpty": false,
+        "allowedValues": [
+          "T",
+          "X"
+        ]
+      }
+    },
+    "08": {
+      "reference": "GS08",
+      "dataElementId": "480",
+      "name": "VersionReleaseIndustryIdentifierCode",
+      "dataType": "AN",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 12
+        },
+        "allowEmpty": false,
+        "supportedBaseVersions": [
+          "004010"
+        ],
+        "versionResolution": "GS07+GS08",
+        "industryConventionSuffix": "partner-specification-required"
+      }
+    }
+  },
+  "rules": [
+    {
+      "id": "GS-EXACT-ELEMENT-COUNT",
+      "type": "elementCount",
+      "exact": 8
+    },
+    {
+      "id": "GS-NO-EMPTY-REQUIRED",
+      "type": "requiredElements",
+      "elements": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ]
+    },
+    {
+      "id": "GS-CONTEXT-ISA-GE",
+      "type": "envelopeNesting",
+      "mustBeInside": "ISA/IEA",
+      "starts": "functional-group",
+      "endsWith": "GE",
+      "requiresAtLeastOne": "ST/SE",
+      "allowMultipleGroupsPerInterchange": true
+    },
+    {
+      "id": "GS-CONTROL-MATCH-GE",
+      "type": "crossSegmentEquality",
+      "left": {
+        "segment": "GS",
+        "element": "06"
+      },
+      "right": {
+        "segment": "GE",
+        "element": "02"
+      },
+      "comparison": "numeric-value",
+      "preserveRawForDiagnostics": true
+    },
+    {
+      "id": "GS-TRANSACTION-COUNT",
+      "type": "crossSegmentCount",
+      "declared": {
+        "segment": "GE",
+        "element": "01"
+      },
+      "actual": "direct-child-ST/SE-transaction-sets",
+      "min": 1
+    },
+    {
+      "id": "GS-INTERCHANGE-GROUP-COUNT",
+      "type": "crossSegmentCount",
+      "declared": {
+        "segment": "IEA",
+        "element": "01"
+      },
+      "actual": "direct-child-GS/GE-functional-groups"
+    },
+    {
+      "id": "GS-TRANSACTION-CONTROLS",
+      "type": "childEnvelopeIntegrity",
+      "checks": [
+        "ST02 equals SE02",
+        "SE01 equals ST-through-SE segment count"
+      ]
+    },
+    {
+      "id": "GS-FUNCTIONAL-FAMILY",
+      "type": "functionalIdentifierMapping",
+      "sourceElement": "01",
+      "childSegment": "ST",
+      "childElement": "01",
+      "mappings": {
+        "SM": [
+          "204"
+        ],
+        "QM": [
+          "214"
+        ],
+        "IM": [
+          "210"
+        ],
+        "GF": [
+          "990"
+        ],
+        "FA": [
+          "997"
+        ],
+        "PO": [
+          "850"
+        ],
+        "IN": [
+          "810"
+        ],
+        "SH": [
+          "856"
+        ],
+        "RA": [
+          "820"
+        ],
+        "SS": [
+          "862"
+        ],
+        "BL": [
+          "211"
+        ],
+        "MI": [
+          "213"
+        ],
+        "PU": [
+          "216"
+        ],
+        "TM": [
+          "212"
+        ],
+        "UP": [
+          "215"
+        ],
+        "FG": [
+          "217"
+        ],
+        "FH": [
+          "218"
+        ],
+        "AH": [
+          "220"
+        ],
+        "AB": [
+          "219"
+        ],
+        "MA": [
+          "224"
+        ]
+      },
+      "mappingSource": "reference-guide-subset",
+      "unknownMappings": "resolve-from-versioned-directory"
+    },
+    {
+      "id": "GS-RESOLVE-VERSION",
+      "type": "versionResolver",
+      "agencyElement": "07",
+      "versionElement": "08",
+      "directoryVersion": "004010",
+      "baseVersion": "004010",
+      "suffixHandling": "require-explicit-implementation-convention",
+      "versionMismatch": "unsupported-specification"
+    },
+    {
+      "id": "GS-AGENCY-X12-CONTEXT",
+      "type": "conditionalAllowedValues",
+      "when": {
+        "element": "07",
+        "equals": "X"
+      },
+      "then": {
+        "element": "08",
+        "allowedValues": [
+          "004010"
+        ]
+      },
+      "configurableByPartnerImplementationConvention": true,
+      "notes": "Base 004010 rule: extra suffix not accepted without an explicitly registered convention."
+    },
+    {
+      "id": "GS-GROUP-CONTROL-UNIQUENESS",
+      "type": "compositeUniqueness",
+      "keyElements": [
+        "01",
+        "02",
+        "03",
+        "06"
+      ],
+      "window": "trading-partner-agreement",
+      "ifWindowUnknown": "do-not-reject-solely-on-duplicate-during-assumed-window",
+      "interpretation": "X12 RFI 1646",
+      "enforcement": "contextual"
+    },
+    {
+      "id": "GS-APPLICATION-PARTNER-ROUTING",
+      "type": "partnerAgreement",
+      "elements": [
+        "02",
+        "03"
+      ],
+      "requireConfiguredPair": "partner-policy",
+      "compareWithISAIds": "only-if-partner-policy-requires",
+      "normalization": "do-not-silently-case-fold-or-trim-for-identity"
+    },
+    {
+      "id": "GS-BUSINESS-TIME-POLICY",
+      "type": "partnerAgreement",
+      "elements": [
+        "04",
+        "05"
+      ],
+      "optionalPolicies": [
+        "timezone",
+        "future-timestamp-tolerance",
+        "clock-skew",
+        "timestamp-freshness"
+      ],
+      "notUniversalX12Rules": true
+    },
+    {
+      "id": "GS-BATCH-POLICY",
+      "type": "partnerAgreement",
+      "optionalPolicies": [
+        "max-transaction-sets-per-functional-group",
+        "supported-GS01-families",
+        "specific-GS08-industry-conventions"
+      ],
+      "notUniversalX12Rules": true
+    },
+    {
+      "id": "GS-NUMERIC-CONTROL-NUMBERS",
+      "type": "numericComparisonPolicy",
+      "element": "06",
+      "numericValueEqualsGE02": true,
+      "allowLeadingZeros": true,
+      "notUniversallyRequired": [
+        "monotonic-increment",
+        "start-at-one",
+        "fixed-nine-digit-padding"
+      ]
+    }
+  ],
+  "provenance": {
+    "basis": "X12 004010 GS technical reference Word document generated 19 Oct 2026; ISA.rule format",
+    "authoritative": false,
+    "notes": "Code lists and mappings follow the supplied Word reference. Verify against licensed ASC X12 directory and trading partner guides before production. Rule types beyond ISA.rule may require compiler support."
+  }
+}
