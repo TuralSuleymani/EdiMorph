@@ -1,0 +1,412 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.B2.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "B2",
+  "scope": "transaction-header",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 12,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "B201",
+      "dataElementId": "375",
+      "name": "TariffServiceCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "allowedValues": [
+          "1A",
+          "1B",
+          "2A",
+          "2B",
+          "B1",
+          "B2",
+          "B3",
+          "B4",
+          "B5",
+          "BA",
+          "BB",
+          "BC",
+          "BD",
+          "BE",
+          "BF",
+          "BG",
+          "BH",
+          "BK",
+          "BL",
+          "BM",
+          "BN",
+          "BO",
+          "BP",
+          "BR",
+          "BW",
+          "BX",
+          "BY",
+          "DB",
+          "DD",
+          "DM",
+          "DO",
+          "DP",
+          "DR",
+          "EC",
+          "H1",
+          "H2",
+          "HA",
+          "HB",
+          "HC",
+          "HD",
+          "HE",
+          "HF",
+          "HG",
+          "HH",
+          "HK",
+          "HL",
+          "HM",
+          "HN",
+          "HP",
+          "HR",
+          "HW",
+          "HX",
+          "HY",
+          "MB",
+          "MD",
+          "ML",
+          "MM",
+          "MO",
+          "MP",
+          "MR",
+          "ND",
+          "OC",
+          "OD",
+          "OM",
+          "OR",
+          "OT",
+          "OV",
+          "PB",
+          "PD",
+          "PH",
+          "PM",
+          "PP",
+          "PR",
+          "RB",
+          "RD",
+          "RM",
+          "RO",
+          "RP",
+          "RR"
+        ]
+      }
+    },
+    "02": {
+      "reference": "B202",
+      "dataElementId": "140",
+      "name": "StandardCarrierAlphaCode",
+      "dataType": "ID",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 4
+        },
+        "lexicalFormat": "X12-ID",
+        "identifierRegistry": "NMFTA-SCAC"
+      }
+    },
+    "03": {
+      "reference": "B203",
+      "dataElementId": "154",
+      "name": "StandardPointLocationCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 6,
+          "max": 9
+        },
+        "lexicalFormat": "X12-ID",
+        "identifierRegistry": "NMFTA-SPLC"
+      }
+    },
+    "04": {
+      "reference": "B204",
+      "dataElementId": "145",
+      "name": "ShipmentIdentificationNumber",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 30
+        },
+        "lexicalFormat": "non-whitespace-identifier",
+        "noSpaces": true,
+        "noSpecialCharacters": true
+      }
+    },
+    "05": {
+      "reference": "B205",
+      "dataElementId": "188",
+      "name": "WeightUnitCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "E",
+          "G",
+          "K",
+          "L",
+          "M",
+          "O",
+          "S",
+          "T"
+        ]
+      }
+    },
+    "06": {
+      "reference": "B206",
+      "dataElementId": "146",
+      "name": "ShipmentMethodOfPayment",
+      "dataType": "ID",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "146",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "07": {
+      "reference": "B207",
+      "dataElementId": "147",
+      "name": "ShipmentQualifier",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "O",
+          "P",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "U",
+          "V",
+          "W",
+          "X",
+          "Y",
+          "Z"
+        ]
+      }
+    },
+    "08": {
+      "reference": "B208",
+      "dataElementId": "86",
+      "name": "TotalEquipment",
+      "dataType": "N0",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 3
+        },
+        "lexicalFormat": "digits",
+        "integer": true,
+        "implicitDecimalPlaces": 0
+      }
+    },
+    "09": {
+      "reference": "B209",
+      "dataElementId": "460",
+      "name": "ShipmentWeightCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "A",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "M",
+          "N",
+          "O",
+          "R",
+          "S",
+          "T"
+        ]
+      }
+    },
+    "10": {
+      "reference": "B210",
+      "dataElementId": "501",
+      "name": "CustomsDocumentationHandlingCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "501",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "11": {
+      "reference": "B211",
+      "dataElementId": "335",
+      "name": "TransportationTermsCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 3,
+          "max": 3
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "335",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "12": {
+      "reference": "B212",
+      "dataElementId": "591",
+      "name": "PaymentMethodCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 3,
+          "max": 3
+        },
+        "allowedValues": [
+          "ACH",
+          "BKW",
+          "BOP",
+          "CAS",
+          "CCC",
+          "CCF",
+          "CCH",
+          "CDA",
+          "CHK",
+          "CLH",
+          "CPC",
+          "CWT",
+          "DCC",
+          "DCD",
+          "DDP",
+          "DEB",
+          "DLC",
+          "DLD",
+          "DPC",
+          "DPD",
+          "DXC",
+          "DXD",
+          "DYC",
+          "DYD",
+          "DZC",
+          "DZD",
+          "EBX",
+          "EXC",
+          "FEW",
+          "FWT",
+          "NON",
+          "PAC",
+          "PBD",
+          "PDC",
+          "PDD",
+          "PDE",
+          "PRO",
+          "REV",
+          "SCC",
+          "SCD",
+          "SDC",
+          "SDD",
+          "SPC",
+          "SPD",
+          "SWT",
+          "SXC",
+          "SXD",
+          "SYC",
+          "SZC",
+          "SZD",
+          "TRA",
+          "VIS",
+          "X12",
+          "ZZZ"
+        ]
+      }
+    }
+  }
+}
