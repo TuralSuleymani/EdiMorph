@@ -1,0 +1,82 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.ST.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "ST",
+  "scope": "transaction-set-header",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 2,
+    "preserveRaw": true,
+    "noTrailingElementOmission": true,
+    "fixedWidth": false,
+    "elementSeparator": "resolved-from-ISA",
+    "segmentTerminator": "resolved-from-ISA",
+    "noAdditionalElements": true
+  },
+  "segmentUsage": {
+    "usage": "M",
+    "presence": "mandatory",
+    "maxUsePerTransaction": 1,
+    "position": "010",
+    "level": "header",
+    "starts": "transaction-set",
+    "endsWith": "SE"
+  },
+  "elements": {
+    "01": {
+      "reference": "ST01",
+      "dataElementId": "143",
+      "name": "TransactionSetIdentifierCode",
+      "dataType": "ID",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": { "exact": 3 },
+        "allowEmpty": false,
+        "codeList": {
+          "id": "143",
+          "version": "004010",
+          "resolution": "versioned-X12-directory",
+          "onUnknownCode": "reject-after-directory-lookup",
+          "notes": "Generic ST01 accepts all valid X12 004010 transaction-set codes, not only 204. Do not treat this illustrative subset as the entire code list."
+        },
+        "knownCodes": {
+          "204": "Motor Carrier Load Tender",
+          "210": "Motor Carrier Freight Details and Invoice",
+          "214": "Transportation Carrier Shipment Status Message",
+          "810": "Invoice",
+          "850": "Purchase Order",
+          "856": "Ship Notice/Manifest",
+          "990": "Response to a Load Tender",
+          "997": "Functional Acknowledgment"
+        }
+      }
+    },
+    "02": {
+      "reference": "ST02",
+      "dataElementId": "329",
+      "name": "TransactionSetControlNumber",
+      "dataType": "AN",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": { "min": 4, "max": 9 },
+        "allowEmpty": false,
+        "characterSet": "resolved-from-X12-004010-character-set",
+        "preserveLeadingZeros": true,
+        "preserveRaw": true,
+        "lexicalFormat": "X12-AN",
+        "notUniversallyRequired": [
+          "numeric-only",
+          "monotonically-increasing",
+          "fixed-width-nine-digits",
+          "equal-to-GS06",
+          "equal-to-ISA13"
+        ]
+      }
+    }
+  }
+}

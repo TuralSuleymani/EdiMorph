@@ -381,44 +381,5 @@
       },
       "role": "component-separator"
     }
-  },
-  "rules": [
-    {
-      "id": "ISA-AUTH-NO-INFO",
-      "type": "conditionalExactValue",
-      "when": {
-        "element": "01",
-        "equals": "00"
-      },
-      "then": {
-        "element": "02",
-        "equals": "          "
-      }
-    },
-    {
-      "id": "ISA-SEC-NO-INFO",
-      "type": "conditionalExactValue",
-      "when": {
-        "element": "03",
-        "equals": "00"
-      },
-      "then": {
-        "element": "04",
-        "equals": "          "
-      }
-    },
-    {
-      "id": "ISA-DELIMITER-DISTINCT",
-      "type": "delimiterDistinct",
-      "elements": [
-        "16"
-      ],
-      "includeResolvedSyntaxDelimiters": true
-    }
-  ],
-  "provenance": {
-    "basis": "Uploaded ISA technical reference, 19 Oct 2026",
-    "authoritative": false,
-    "notes": "Validate against licensed ASC X12 directory and applicable partner agreements before production."
   }
 }
