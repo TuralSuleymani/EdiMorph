@@ -1,0 +1,107 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.G62.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "G62",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 5,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "G6201",
+      "dataElementId": "432",
+      "name": "DateQualifier",
+      "dataType": "ID",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "432",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "02": {
+      "reference": "G6202",
+      "dataElementId": "373",
+      "name": "Date",
+      "dataType": "DT",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 8,
+          "max": 8
+        },
+        "format": "CCYYMMDD"
+      }
+    },
+    "03": {
+      "reference": "G6203",
+      "dataElementId": "176",
+      "name": "TimeQualifier",
+      "dataType": "ID",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 2
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "176",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "04": {
+      "reference": "G6204",
+      "dataElementId": "337",
+      "name": "Time",
+      "dataType": "TM",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 4,
+          "max": 8
+        },
+        "format": "HHMM[SS[D[D]]]"
+      }
+    },
+    "05": {
+      "reference": "G6205",
+      "dataElementId": "623",
+      "name": "TimeCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "623",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    }
+  }
+}

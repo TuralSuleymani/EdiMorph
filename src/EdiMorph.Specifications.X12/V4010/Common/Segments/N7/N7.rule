@@ -1,0 +1,507 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.N7.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "N7",
+  "scope": "transaction-header",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 24,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "N701",
+      "dataElementId": "206",
+      "name": "EquipmentInitial",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 4
+        }
+      }
+    },
+    "02": {
+      "reference": "N702",
+      "dataElementId": "207",
+      "name": "EquipmentNumber",
+      "dataType": "AN",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    },
+    "03": {
+      "reference": "N703",
+      "dataElementId": "81",
+      "name": "Weight",
+      "dataType": "R",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    },
+    "04": {
+      "reference": "N704",
+      "dataElementId": "187",
+      "name": "WeightQualifier",
+      "dataType": "ID",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 2
+        },
+        "allowedValues": [
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "O",
+          "P",
+          "Q",
+          "R",
+          "S",
+          "T",
+          "U",
+          "V",
+          "W",
+          "X",
+          "Y",
+          "Z",
+          "A1",
+          "A2",
+          "A3",
+          "A4",
+          "CD",
+          "CE",
+          "DR",
+          "FR",
+          "LC",
+          "ND",
+          "NI",
+          "NR",
+          "NT",
+          "PA",
+          "RG",
+          "RN",
+          "RT",
+          "SF",
+          "SI",
+          "SK",
+          "SO",
+          "WA",
+          "WB",
+          "WG",
+          "WJ"
+        ]
+      }
+    },
+    "05": {
+      "reference": "N705",
+      "dataElementId": "167",
+      "name": "TareWeight",
+      "dataType": "N0",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 3,
+          "max": 8
+        },
+        "lexicalFormat": "digits"
+      }
+    },
+    "06": {
+      "reference": "N706",
+      "dataElementId": "232",
+      "name": "WeightAllowance",
+      "dataType": "N0",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 6
+        },
+        "lexicalFormat": "digits"
+      }
+    },
+    "07": {
+      "reference": "N707",
+      "dataElementId": "205",
+      "name": "Dunnage",
+      "dataType": "N0",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 6
+        },
+        "lexicalFormat": "digits"
+      }
+    },
+    "08": {
+      "reference": "N708",
+      "dataElementId": "183",
+      "name": "Volume",
+      "dataType": "R",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 8
+        }
+      }
+    },
+    "09": {
+      "reference": "N709",
+      "dataElementId": "184",
+      "name": "VolumeUnitQualifier",
+      "dataType": "ID",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "L",
+          "M",
+          "N",
+          "R",
+          "S",
+          "T",
+          "U",
+          "V",
+          "X"
+        ]
+      }
+    },
+    "10": {
+      "reference": "N710",
+      "dataElementId": "102",
+      "name": "OwnershipCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "L",
+          "N",
+          "R",
+          "S",
+          "T"
+        ]
+      }
+    },
+    "11": {
+      "reference": "N711",
+      "dataElementId": "40",
+      "name": "EquipmentDescriptionCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "40",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "12": {
+      "reference": "N712",
+      "dataElementId": "140",
+      "name": "EquipmentOwnerSCAC",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 4
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "140",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "13": {
+      "reference": "N713",
+      "dataElementId": "319",
+      "name": "TemperatureControl",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 3,
+          "max": 6
+        }
+      }
+    },
+    "14": {
+      "reference": "N714",
+      "dataElementId": "219",
+      "name": "Position",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 3
+        }
+      }
+    },
+    "15": {
+      "reference": "N715",
+      "dataElementId": "567",
+      "name": "EquipmentLength",
+      "dataType": "N0",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 4,
+          "max": 5
+        },
+        "lexicalFormat": "digits",
+        "inchComponentRange": {
+          "min": 0,
+          "max": 11
+        },
+        "preserveLeadingZeros": true
+      }
+    },
+    "16": {
+      "reference": "N716",
+      "dataElementId": "571",
+      "name": "TareQualifierCode",
+      "dataType": "ID",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "A",
+          "M"
+        ]
+      }
+    },
+    "17": {
+      "reference": "N717",
+      "dataElementId": "188",
+      "name": "WeightUnitCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "E",
+          "G",
+          "K",
+          "L",
+          "M",
+          "O",
+          "S",
+          "T"
+        ]
+      }
+    },
+    "18": {
+      "reference": "N718",
+      "dataElementId": "761",
+      "name": "EquipmentNumberCheckDigit",
+      "dataType": "N0",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "lexicalFormat": "digits"
+      }
+    },
+    "19": {
+      "reference": "N719",
+      "dataElementId": "56",
+      "name": "TypeOfServiceCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "allowedValues": [
+          "AI",
+          "BB",
+          "CS",
+          "CY",
+          "DD",
+          "DR",
+          "HA",
+          "HH",
+          "HL",
+          "HP",
+          "MC",
+          "MD",
+          "NC",
+          "PH",
+          "PP",
+          "RD",
+          "RE",
+          "RR"
+        ]
+      }
+    },
+    "20": {
+      "reference": "N720",
+      "dataElementId": "65",
+      "name": "Height",
+      "dataType": "R",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 8
+        },
+        "measurementUnit": "inches"
+      }
+    },
+    "21": {
+      "reference": "N721",
+      "dataElementId": "189",
+      "name": "Width",
+      "dataType": "R",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 8
+        },
+        "measurementUnit": "inches"
+      }
+    },
+    "22": {
+      "reference": "N722",
+      "dataElementId": "24",
+      "name": "EquipmentType",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 4,
+          "max": 4
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "24",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "23": {
+      "reference": "N723",
+      "dataElementId": "140",
+      "name": "EquipmentOperatorSCAC",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 4
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "140",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "24": {
+      "reference": "N724",
+      "dataElementId": "301",
+      "name": "CarTypeCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 4
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "301",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    }
+  }
+}

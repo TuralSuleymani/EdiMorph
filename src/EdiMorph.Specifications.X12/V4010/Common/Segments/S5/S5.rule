@@ -1,0 +1,207 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.S5.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "S5",
+  "scope": "transaction-detail-loop",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 11,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "S501",
+      "dataElementId": "165",
+      "name": "StopSequenceNumber",
+      "dataType": "N0",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 3
+        },
+        "lexicalFormat": "digits"
+      }
+    },
+    "02": {
+      "reference": "S502",
+      "dataElementId": "163",
+      "name": "StopReasonCode",
+      "dataType": "ID",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "163",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "03": {
+      "reference": "S503",
+      "dataElementId": "81",
+      "name": "Weight",
+      "dataType": "R",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    },
+    "04": {
+      "reference": "S504",
+      "dataElementId": "188",
+      "name": "WeightUnitCode",
+      "dataType": "ID",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "E",
+          "G",
+          "K",
+          "L",
+          "M",
+          "O",
+          "S",
+          "T"
+        ]
+      }
+    },
+    "05": {
+      "reference": "S505",
+      "dataElementId": "382",
+      "name": "NumberOfUnitsShipped",
+      "dataType": "R",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    },
+    "06": {
+      "reference": "S506",
+      "dataElementId": "355",
+      "name": "UnitOrBasisForMeasurementCode",
+      "dataType": "ID",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "355",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "07": {
+      "reference": "S507",
+      "dataElementId": "183",
+      "name": "Volume",
+      "dataType": "R",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 8
+        }
+      }
+    },
+    "08": {
+      "reference": "S508",
+      "dataElementId": "184",
+      "name": "VolumeUnitQualifier",
+      "dataType": "ID",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "184",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "09": {
+      "reference": "S509",
+      "dataElementId": "352",
+      "name": "Description",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 80
+        }
+      }
+    },
+    "10": {
+      "reference": "S510",
+      "dataElementId": "154",
+      "name": "StandardPointLocationCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 6,
+          "max": 9
+        },
+        "identifierRegistry": "NMFTA-SPLC"
+      }
+    },
+    "11": {
+      "reference": "S511",
+      "dataElementId": "190",
+      "name": "AccomplishCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "190",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    }
+  }
+}
