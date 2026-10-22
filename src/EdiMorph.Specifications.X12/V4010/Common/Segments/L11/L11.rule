@@ -1,0 +1,65 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.L11.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "L11",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 3,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "L1101",
+      "dataElementId": "127",
+      "name": "ReferenceIdentification",
+      "dataType": "AN",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 30
+        }
+      }
+    },
+    "02": {
+      "reference": "L1102",
+      "dataElementId": "128",
+      "name": "ReferenceIdentificationQualifier",
+      "dataType": "ID",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 3
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "128",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "03": {
+      "reference": "L1103",
+      "dataElementId": "352",
+      "name": "Description",
+      "dataType": "AN",
+      "usage": "X",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 80
+        }
+      }
+    }
+  }
+}
