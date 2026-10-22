@@ -1,0 +1,51 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.NTE.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "NTE",
+  "scope": "transaction-header",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 2,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "NTE01",
+      "dataElementId": "363",
+      "name": "NoteReferenceCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 3,
+          "max": 3
+        },
+        "codeListRef": {
+          "standard": "X12",
+          "release": "004010",
+          "dataElementId": "363",
+          "resolution": "versioned-external-directory"
+        }
+      }
+    },
+    "02": {
+      "reference": "NTE02",
+      "dataElementId": "352",
+      "name": "Description",
+      "dataType": "AN",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 80
+        }
+      }
+    }
+  }
+}
