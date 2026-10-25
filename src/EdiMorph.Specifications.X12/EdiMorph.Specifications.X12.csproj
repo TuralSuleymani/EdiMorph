@@ -6,4 +6,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="**\*.rule" Exclude="$(BaseIntermediateOutputPath)**\*;$(BaseOutputPath)**\*;bin\**\*;obj\**\*">
+      <LogicalName>$([System.String]::Copy('%(RelativeDir)%(Filename)%(Extension)').Replace('\','/'))</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
