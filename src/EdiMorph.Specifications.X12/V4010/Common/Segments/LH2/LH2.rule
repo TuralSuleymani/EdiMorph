@@ -2562,5 +2562,8 @@
         }
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_LH2_SYNTAX"
+  ]
 }

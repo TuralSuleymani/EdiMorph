@@ -7,5 +7,6 @@
   <Folder Name="/tests/">
     <Project Path="tests/EdiMorph.Abstractions.Tests/EdiMorph.Abstractions.Tests.csproj" />
     <Project Path="tests/EdiMorph.Specifications.Tests/EdiMorph.Specifications.Tests.csproj" />
+    <Project Path="tests/EdiMorph.Specifications.X12.Tests/EdiMorph.Specifications.X12.Tests.csproj" />
   </Folder>
 </Solution>

@@ -985,5 +985,8 @@
         ]
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_LH4_SYNTAX"
+  ]
 }

@@ -203,5 +203,8 @@
         }
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_S5_SYNTAX"
+  ]
 }

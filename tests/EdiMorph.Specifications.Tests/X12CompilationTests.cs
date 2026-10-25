@@ -1,6 +1,9 @@
 using EdiMorph.Diagnostics;
 using EdiMorph.Rules;
 using EdiMorph.Specifications.Tests.Factories;
+using EdiMorph.Specifications.X12.V4010.Common.Segments.ISA;
+using EdiMorph.Specifications.X12.V4010.Common.Segments.L11;
+using EdiMorph.Specifications.X12.V4010.Transactions;
 
 namespace EdiMorph.Specifications.Tests;
 
@@ -29,6 +32,12 @@ public sealed class X12CompilationTests
             node.LoopId == "0300" && node.MinOccurs == 1 && node.MaxOccurs == 999);
         result.Handlers.Should().ContainSingle(binding =>
             binding.RuleId == TestDefaults.EnvelopeIntegrityRuleId && binding.Mandatory);
+        result.Handlers.Should().ContainSingle(binding =>
+            binding.RuleId == IsaAuthorizationSemantics.RuleId && binding.Mandatory);
+        result.Handlers.Should().ContainSingle(binding =>
+            binding.RuleId == L11Syntax.RuleId && binding.Mandatory);
+        result.Handlers.Should().ContainSingle(binding =>
+            binding.RuleId == X204Syntax.RuleId && binding.Mandatory);
     }
 
     [Fact]

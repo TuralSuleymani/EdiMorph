@@ -5,7 +5,7 @@ namespace EdiMorph.Specifications.Tests;
 public sealed class ProviderOverlayTests
 {
     private readonly SpecificationCompiler _sut = SpecificationCompilerFactory.CreateX12(
-        SpecificationCompilerFactory.CreateStandardRules(includeIsaAuthorization: true, includeFixtureGuide: true),
+        SpecificationCompilerFactory.CreateStandardRules(includeFixtureGuide: true),
         FixtureRuleDocuments.Segment(),
         FixtureRuleDocuments.TransactionOverride(),
         FixtureRuleDocuments.ProviderOverride(),

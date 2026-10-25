@@ -934,5 +934,8 @@
         }
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_LFH_SYNTAX"
+  ]
 }

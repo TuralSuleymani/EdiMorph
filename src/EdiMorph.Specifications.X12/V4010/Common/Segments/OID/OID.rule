@@ -963,5 +963,8 @@
         }
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_OID_SYNTAX"
+  ]
 }

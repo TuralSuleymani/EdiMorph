@@ -5680,5 +5680,8 @@
         ]
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_MEA_SYNTAX"
+  ]
 }

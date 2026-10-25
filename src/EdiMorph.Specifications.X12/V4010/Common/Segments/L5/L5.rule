@@ -235,5 +235,8 @@
         ]
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_L5_SYNTAX"
+  ]
 }
