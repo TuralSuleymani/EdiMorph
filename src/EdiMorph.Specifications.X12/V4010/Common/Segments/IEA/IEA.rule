@@ -1,0 +1,50 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.IEA.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "IEA",
+  "scope": "interchange-trailer",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 2,
+    "preserveRaw": true,
+    "noTrailingElementOmission": true
+  },
+  "elements": {
+    "01": {
+      "reference": "IEA01",
+      "dataElementId": "I16",
+      "name": "NumberOfIncludedFunctionalGroups",
+      "dataType": "N0",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 5
+        },
+        "lexicalFormat": "digits",
+        "implicitDecimalPlaces": 0
+      }
+    },
+    "02": {
+      "reference": "IEA02",
+      "dataElementId": "I12",
+      "name": "InterchangeControlNumber",
+      "dataType": "N0",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 9,
+          "max": 9
+        },
+        "lexicalFormat": "digits",
+        "implicitDecimalPlaces": 0,
+        "preserveLeadingZeros": true
+      }
+    }
+  }
+}

@@ -41,51 +41,7 @@
     }
   },
 
-  "rules": [
-    {
-      "id": "interchange-control-match",
-      "scope": "interchange",
-      "type": "fieldEquals",
-      "left": "header.13",
-      "right": "trailer.02",
-      "comparison": "raw"
-    },
-    {
-      "id": "interchange-group-count",
-      "scope": "interchange",
-      "type": "countEqualsField",
-      "collection": "groups",
-      "field": "trailer.01"
-    },
-    {
-      "id": "group-control-match",
-      "scope": "group",
-      "type": "fieldEquals",
-      "left": "header.06",
-      "right": "trailer.02",
-      "comparison": "raw"
-    },
-    {
-      "id": "group-transaction-count",
-      "scope": "group",
-      "type": "countEqualsField",
-      "collection": "transactions",
-      "field": "trailer.01"
-    },
-    {
-      "id": "transaction-control-match",
-      "scope": "transaction",
-      "type": "fieldEquals",
-      "left": "header.02",
-      "right": "trailer.02",
-      "comparison": "raw"
-    },
-    {
-      "id": "transaction-segment-count",
-      "scope": "transaction",
-      "type": "segmentCountEqualsField",
-      "field": "trailer.01",
-      "includeHeaderAndTrailer": true
-    }
+  "customRules": [
+    "X12_V4010_ENVELOPE_INTEGRITY"
   ]
 }

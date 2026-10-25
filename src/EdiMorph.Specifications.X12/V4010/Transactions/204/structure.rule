@@ -1,0 +1,234 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.v4010.transaction.204",
+  "kind": "transaction",
+  "format": "X12",
+  "version": "004010",
+  "transaction": "204",
+  "name": "Motor Carrier Load Tender",
+  "functionalGroup": "SM",
+  "envelopeRef": "x12.envelope.v4010",
+  "structure": {
+    "kind": "ordered-sequence",
+    "sections": {
+      "heading": [
+        { "id": "heading.ST", "sequence": "010", "segment": "ST", "segmentRef": "x12.segment.ST.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+        { "id": "heading.B2", "sequence": "020", "segment": "B2", "segmentRef": "x12.segment.B2.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+        { "id": "heading.B2A", "sequence": "030", "segment": "B2A", "segmentRef": "x12.segment.B2A.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+        { "id": "heading.L11", "sequence": "080", "segment": "L11", "segmentRef": "x12.segment.L11.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 50 },
+        { "id": "heading.G62", "sequence": "090", "segment": "G62", "segmentRef": "x12.segment.G62.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+        { "id": "heading.MS3", "sequence": "100", "segment": "MS3", "segmentRef": "x12.segment.MS3.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+        { "id": "heading.AT5", "sequence": "110", "segment": "AT5", "segmentRef": "x12.segment.AT5.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 6 },
+        { "id": "heading.PLD", "sequence": "120", "segment": "PLD", "segmentRef": "x12.segment.PLD.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+        { "id": "heading.LH6", "sequence": "125", "segment": "LH6", "segmentRef": "x12.segment.LH6.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 6 },
+        { "id": "heading.NTE", "sequence": "130", "segment": "NTE", "segmentRef": "x12.segment.NTE.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 10 },
+        {
+          "id": "heading.0100",
+          "kind": "loop",
+          "sequence": "140",
+          "loopId": "0100",
+          "usage": "O",
+          "minOccurs": 0,
+          "maxOccurs": 5,
+          "start": { "segment": "N1" },
+          "children": [
+            { "id": "heading.0100.N1", "sequence": "140", "segment": "N1", "segmentRef": "x12.segment.N1.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+            { "id": "heading.0100.N2", "sequence": "150", "segment": "N2", "segmentRef": "x12.segment.N2.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+            { "id": "heading.0100.N3", "sequence": "160", "segment": "N3", "segmentRef": "x12.segment.N3.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 2 },
+            { "id": "heading.0100.N4", "sequence": "170", "segment": "N4", "segmentRef": "x12.segment.N4.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+            { "id": "heading.0100.L11", "sequence": "180", "segment": "L11", "segmentRef": "x12.segment.L11.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+            { "id": "heading.0100.G61", "sequence": "190", "segment": "G61", "segmentRef": "x12.segment.G61.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 3 }
+          ]
+        },
+        {
+          "id": "heading.0200",
+          "kind": "loop",
+          "sequence": "200",
+          "loopId": "0200",
+          "usage": "O",
+          "minOccurs": 0,
+          "maxOccurs": 10,
+          "start": { "segment": "N7" },
+          "children": [
+            { "id": "heading.0200.N7", "sequence": "200", "segment": "N7", "segmentRef": "x12.segment.N7.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+            { "id": "heading.0200.N7A", "sequence": "203", "segment": "N7A", "segmentRef": "x12.segment.N7A.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+            { "id": "heading.0200.N7B", "sequence": "205", "segment": "N7B", "segmentRef": "x12.segment.N7B.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+            { "id": "heading.0200.MEA", "sequence": "208", "segment": "MEA", "segmentRef": "x12.segment.MEA.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+            { "id": "heading.0200.M7", "sequence": "210", "segment": "M7", "segmentRef": "x12.segment.M7.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 2 }
+          ]
+        }
+      ],
+      "detail": [
+        {
+          "id": "detail.0300",
+          "kind": "loop",
+          "sequence": "010",
+          "loopId": "0300",
+          "usage": "M",
+          "minOccurs": 1,
+          "maxOccurs": 999,
+          "start": { "segment": "S5" },
+          "children": [
+            { "id": "detail.0300.S5", "sequence": "010", "segment": "S5", "segmentRef": "x12.segment.S5.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+            { "id": "detail.0300.L11", "sequence": "020", "segment": "L11", "segmentRef": "x12.segment.L11.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 50 },
+            { "id": "detail.0300.G62", "sequence": "030", "segment": "G62", "segmentRef": "x12.segment.G62.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 2 },
+            { "id": "detail.0300.AT8", "sequence": "040", "segment": "AT8", "segmentRef": "x12.segment.AT8.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+            { "id": "detail.0300.LAD", "sequence": "050", "segment": "LAD", "segmentRef": "x12.segment.LAD.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 999 },
+            { "id": "detail.0300.AT5", "sequence": "060", "segment": "AT5", "segmentRef": "x12.segment.AT5.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 6 },
+            { "id": "detail.0300.PLD", "sequence": "063", "segment": "PLD", "segmentRef": "x12.segment.PLD.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+            { "id": "detail.0300.NTE", "sequence": "065", "segment": "NTE", "segmentRef": "x12.segment.NTE.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 20 },
+            {
+              "id": "detail.0300.0310",
+              "kind": "loop",
+              "sequence": "070",
+              "loopId": "0310",
+              "usage": "O",
+              "minOccurs": 0,
+              "maxOccurs": 1,
+              "start": { "segment": "N1" },
+              "children": [
+                { "id": "detail.0300.0310.N1", "sequence": "070", "segment": "N1", "segmentRef": "x12.segment.N1.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+                { "id": "detail.0300.0310.N2", "sequence": "080", "segment": "N2", "segmentRef": "x12.segment.N2.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+                { "id": "detail.0300.0310.N3", "sequence": "090", "segment": "N3", "segmentRef": "x12.segment.N3.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 2 },
+                { "id": "detail.0300.0310.N4", "sequence": "100", "segment": "N4", "segmentRef": "x12.segment.N4.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+                { "id": "detail.0300.0310.G61", "sequence": "120", "segment": "G61", "segmentRef": "x12.segment.G61.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 3 }
+              ]
+            },
+            {
+              "id": "detail.0300.0320",
+              "kind": "loop",
+              "sequence": "130",
+              "loopId": "0320",
+              "usage": "O",
+              "minOccurs": 0,
+              "maxOccurs": 99,
+              "start": { "segment": "L5" },
+              "children": [
+                { "id": "detail.0300.0320.L5", "sequence": "130", "segment": "L5", "segmentRef": "x12.segment.L5.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+                { "id": "detail.0300.0320.AT8", "sequence": "135", "segment": "AT8", "segmentRef": "x12.segment.AT8.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+                {
+                  "id": "detail.0300.0320.0325",
+                  "kind": "loop",
+                  "sequence": "140",
+                  "loopId": "0325",
+                  "usage": "O",
+                  "minOccurs": 0,
+                  "maxOccurs": 99,
+                  "start": { "segment": "G61" },
+                  "children": [
+                    { "id": "detail.0300.0320.0325.G61", "sequence": "140", "segment": "G61", "segmentRef": "x12.segment.G61.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+                    { "id": "detail.0300.0320.0325.L11", "sequence": "141", "segment": "L11", "segmentRef": "x12.segment.L11.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 5 },
+                    { "id": "detail.0300.0320.0325.LH6", "sequence": "142", "segment": "LH6", "segmentRef": "x12.segment.LH6.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 6 },
+                    {
+                      "id": "detail.0300.0320.0325.0330",
+                      "kind": "loop",
+                      "sequence": "143",
+                      "loopId": "0330",
+                      "usage": "O",
+                      "minOccurs": 0,
+                      "maxOccurs": 25,
+                      "start": { "segment": "LH1" },
+                      "children": [
+                        { "id": "detail.0300.0320.0325.0330.LH1", "sequence": "143", "segment": "LH1", "segmentRef": "x12.segment.LH1.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+                        { "id": "detail.0300.0320.0325.0330.LH2", "sequence": "144", "segment": "LH2", "segmentRef": "x12.segment.LH2.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 4 },
+                        { "id": "detail.0300.0320.0325.0330.LH3", "sequence": "145", "segment": "LH3", "segmentRef": "x12.segment.LH3.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 10 },
+                        { "id": "detail.0300.0320.0325.0330.LFH", "sequence": "146", "segment": "LFH", "segmentRef": "x12.segment.LFH.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 20 },
+                        { "id": "detail.0300.0320.0325.0330.LEP", "sequence": "147", "segment": "LEP", "segmentRef": "x12.segment.LEP.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 3 },
+                        { "id": "detail.0300.0320.0325.0330.LH4", "sequence": "148", "segment": "LH4", "segmentRef": "x12.segment.LH4.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+                        { "id": "detail.0300.0320.0325.0330.LHT", "sequence": "149", "segment": "LHT", "segmentRef": "x12.segment.LHT.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 3 }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "detail.0300.0350",
+              "kind": "loop",
+              "sequence": "150",
+              "loopId": "0350",
+              "usage": "O",
+              "minOccurs": 0,
+              "maxOccurs": 999,
+              "start": { "segment": "OID" },
+              "children": [
+                { "id": "detail.0300.0350.OID", "sequence": "150", "segment": "OID", "segmentRef": "x12.segment.OID.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+                { "id": "detail.0300.0350.G62", "sequence": "160", "segment": "G62", "segmentRef": "x12.segment.G62.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 2 },
+                { "id": "detail.0300.0350.LAD", "sequence": "180", "segment": "LAD", "segmentRef": "x12.segment.LAD.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 999 },
+                {
+                  "id": "detail.0300.0350.0360",
+                  "kind": "loop",
+                  "sequence": "190",
+                  "loopId": "0360",
+                  "usage": "O",
+                  "minOccurs": 0,
+                  "maxOccurs": 99,
+                  "start": { "segment": "L5" },
+                  "children": [
+                    { "id": "detail.0300.0350.0360.L5", "sequence": "190", "segment": "L5", "segmentRef": "x12.segment.L5.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+                    { "id": "detail.0300.0350.0360.AT8", "sequence": "195", "segment": "AT8", "segmentRef": "x12.segment.AT8.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+                    {
+                      "id": "detail.0300.0350.0360.0365",
+                      "kind": "loop",
+                      "sequence": "200",
+                      "loopId": "0365",
+                      "usage": "O",
+                      "minOccurs": 0,
+                      "maxOccurs": 99,
+                      "start": { "segment": "G61" },
+                      "children": [
+                        { "id": "detail.0300.0350.0360.0365.G61", "sequence": "200", "segment": "G61", "segmentRef": "x12.segment.G61.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+                        { "id": "detail.0300.0350.0360.0365.L11", "sequence": "201", "segment": "L11", "segmentRef": "x12.segment.L11.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 5 },
+                        { "id": "detail.0300.0350.0360.0365.LH6", "sequence": "202", "segment": "LH6", "segmentRef": "x12.segment.LH6.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 6 },
+                        {
+                          "id": "detail.0300.0350.0360.0365.0370",
+                          "kind": "loop",
+                          "sequence": "203",
+                          "loopId": "0370",
+                          "usage": "O",
+                          "minOccurs": 0,
+                          "maxOccurs": 25,
+                          "start": { "segment": "LH1" },
+                          "children": [
+                            { "id": "detail.0300.0350.0360.0365.0370.LH1", "sequence": "203", "segment": "LH1", "segmentRef": "x12.segment.LH1.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+                            { "id": "detail.0300.0350.0360.0365.0370.LH2", "sequence": "204", "segment": "LH2", "segmentRef": "x12.segment.LH2.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 4 },
+                            { "id": "detail.0300.0350.0360.0365.0370.LH3", "sequence": "205", "segment": "LH3", "segmentRef": "x12.segment.LH3.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 10 },
+                            { "id": "detail.0300.0350.0360.0365.0370.LFH", "sequence": "206", "segment": "LFH", "segmentRef": "x12.segment.LFH.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 20 },
+                            { "id": "detail.0300.0350.0360.0365.0370.LEP", "sequence": "207", "segment": "LEP", "segmentRef": "x12.segment.LEP.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 3 },
+                            { "id": "detail.0300.0350.0360.0365.0370.LH4", "sequence": "208", "segment": "LH4", "segmentRef": "x12.segment.LH4.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+                            { "id": "detail.0300.0350.0360.0365.0370.LHT", "sequence": "209", "segment": "LHT", "segmentRef": "x12.segment.LHT.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 3 }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "detail.0300.0380",
+              "kind": "loop",
+              "sequence": "210",
+              "loopId": "0380",
+              "usage": "O",
+              "minOccurs": 0,
+              "maxOccurs": 10,
+              "start": { "segment": "N7" },
+              "children": [
+                { "id": "detail.0300.0380.N7", "sequence": "210", "segment": "N7", "segmentRef": "x12.segment.N7.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 },
+                { "id": "detail.0300.0380.N7A", "sequence": "220", "segment": "N7A", "segmentRef": "x12.segment.N7A.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+                { "id": "detail.0300.0380.N7B", "sequence": "230", "segment": "N7B", "segmentRef": "x12.segment.N7B.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+                { "id": "detail.0300.0380.MEA", "sequence": "240", "segment": "MEA", "segmentRef": "x12.segment.MEA.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+                { "id": "detail.0300.0380.M7", "sequence": "250", "segment": "M7", "segmentRef": "x12.segment.M7.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 2 }
+              ]
+            }
+          ]
+        }
+      ],
+      "summary": [
+        { "id": "summary.L3", "sequence": "010", "segment": "L3", "segmentRef": "x12.segment.L3.v4010", "usage": "O", "minOccurs": 0, "maxOccurs": 1 },
+        { "id": "summary.SE", "sequence": "020", "segment": "SE", "segmentRef": "x12.segment.SE.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 }
+      ]
+    }
+  }
+}
