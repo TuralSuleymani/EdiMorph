@@ -2,6 +2,7 @@ using EdiMorph.Diagnostics;
 using EdiMorph.Rules;
 using EdiMorph.Specifications;
 using EdiMorph.Specifications.X12;
+using EdiMorph.Specifications.X12.V4010.Transactions;
 
 namespace EdiMorph.X12;
 
@@ -41,11 +42,14 @@ public sealed class X12Reader
         var syntax = X12InterchangeSyntax.Load();
         if (!X12Tokenizer.TryTokenize(interchange, syntax, specification, diagnostics, out var tokens))
         {
-            return new X12ReadResult(null, diagnostics);
+            return new X12ReadResult(null, [], diagnostics);
         }
 
         var parsed = X12StructureReader.Read(specification, tokens, diagnostics);
         await RuleExecutor.ExecuteAsync(specification, rules, parsed, diagnostics, cancellationToken);
-        return new X12ReadResult(parsed.Envelope, diagnostics);
+        var transactions = string.Equals(specification.Transaction.Code, Transaction204.Code, StringComparison.Ordinal)
+            ? parsed.Transactions.Select(transaction => Transaction204Mapper.Map(transaction.Placements)).ToArray()
+            : Array.Empty<Transaction204>();
+        return new X12ReadResult(parsed.Envelope, transactions, diagnostics);
     }
 }

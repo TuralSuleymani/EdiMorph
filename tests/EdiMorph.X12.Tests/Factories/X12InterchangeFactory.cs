@@ -32,6 +32,18 @@ internal static class X12InterchangeFactory
 
     public const string Pickup = "LD";
 
+    public const string ShipFromCode = "SH";
+
+    public const string ShipToCode = "CN";
+
+    public const string ShipFromName = "Shipper";
+
+    public const string ShipToName = "Consignee";
+
+    public const string ExtensionTag = "ZZ";
+
+    public const string ExtensionValue = "EXTRA";
+
     public const string SenderId = "SENDER";
 
     public const string ReceiverId = "RECEIVER";
@@ -82,6 +94,30 @@ internal static class X12InterchangeFactory
         return Create([Beginning(CarrierCode), Purpose(), Stop(SecondStop), Stop(FirstStop)]);
     }
 
+    public static string WithPartyOnEachStop()
+    {
+        return Create(
+        [
+            Beginning(CarrierCode),
+            Purpose(),
+            Stop(FirstStop),
+            Party(ShipFromCode, ShipFromName),
+            Stop(SecondStop),
+            Party(ShipToCode, ShipToName)
+        ]);
+    }
+
+    public static string WithExtensionOnTheFirstStop()
+    {
+        return Create(
+        [
+            Beginning(CarrierCode),
+            Purpose(),
+            Stop(FirstStop),
+            $"{ExtensionTag}*{ExtensionValue}"
+        ]);
+    }
+
     public static string WithCarrierCode(string carrierCode)
     {
         return Create([Beginning(carrierCode), Purpose(), Stop(FirstStop)]);
@@ -115,6 +151,11 @@ internal static class X12InterchangeFactory
     private static string Stop(string sequence)
     {
         return $"S5*{sequence}*{Pickup}";
+    }
+
+    private static string Party(string entityCode, string name)
+    {
+        return $"N1*{entityCode}*{name}";
     }
 
     private static string Create(

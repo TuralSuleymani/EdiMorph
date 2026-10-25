@@ -32,6 +32,11 @@ public sealed class X12ReaderTests
         var transaction = group.Transactions.Should().ContainSingle().Subject;
         transaction.Segments.Select(segment => segment.Tag).Should().Equal("ST", "B2", "B2A", "S5", "SE");
         transaction.SegmentCount.Should().Be(transaction.Segments.Count);
+        var tender = result.Transactions.Should().ContainSingle().Subject;
+        tender.Beginning!.Elements["02"].Should().Be(X12InterchangeFactory.CarrierCode);
+        tender.Stops.Should().ContainSingle().Which.StopOff!.Elements["01"].Should().Be(X12InterchangeFactory.FirstStop);
+        tender.Parties.Should().BeEmpty();
+        tender.Extensions.Should().BeEmpty();
     }
 
     [Fact]
@@ -52,6 +57,49 @@ public sealed class X12ReaderTests
             .Select(segment => segment.Elements["01"])
             .Should()
             .Equal(X12InterchangeFactory.FirstStop, X12InterchangeFactory.SecondStop);
+        result.Transactions.Single().Stops
+            .Select(stop => stop.StopOff!.Elements["01"])
+            .Should()
+            .Equal(X12InterchangeFactory.FirstStop, X12InterchangeFactory.SecondStop);
+    }
+
+    [Fact]
+    public async Task Read_WhenEachStopHasAParty_ShouldKeepThePartyOnThatStop()
+    {
+        // Arrange
+        var interchange = X12InterchangeFactory.WithPartyOnEachStop();
+
+        // Act
+        var result = await _sut.ReadAsync(_specification, _rules, interchange);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        var tender = result.Transactions.Should().ContainSingle().Subject;
+        tender.Parties.Should().BeEmpty();
+        tender.Stops.Should().HaveCount(2);
+        tender.Stops[0].Party!.Name!.Elements["02"].Should().Be(X12InterchangeFactory.ShipFromName);
+        tender.Stops[1].Party!.Name!.Elements["02"].Should().Be(X12InterchangeFactory.ShipToName);
+    }
+
+    [Fact]
+    public async Task Read_WhenAStopContainsAnUnknownSegment_ShouldKeepItAsAnExtension()
+    {
+        // Arrange
+        var interchange = X12InterchangeFactory.WithExtensionOnTheFirstStop();
+
+        // Act
+        var result = await _sut.ReadAsync(_specification, _rules, interchange);
+
+        // Assert
+        result.IsSuccess.Should().BeFalse();
+        var diagnostic = result.Diagnostics.Should().ContainSingle().Subject;
+        diagnostic.Code.Should().Be(DiagnosticCodes.Structure);
+        diagnostic.Target.Should().Be(X12InterchangeFactory.ExtensionTag);
+        var tender = result.Transactions.Should().ContainSingle().Subject;
+        tender.Extensions.Should().BeEmpty();
+        var extension = tender.Stops.Should().ContainSingle().Subject.Extensions.Should().ContainSingle().Subject;
+        extension.Tag.Should().Be(X12InterchangeFactory.ExtensionTag);
+        extension.Elements["01"].Should().Be(X12InterchangeFactory.ExtensionValue);
     }
 
     [Fact]
