@@ -187,9 +187,10 @@ internal static class X12StructureReader
         List<SpecificationDiagnostic> diagnostics)
     {
         var accepted = new List<ParsedSegment>();
+        var placements = new List<Placement>();
         var stops = new HashSet<string>(StringComparer.Ordinal) { groupTrailer, interchangeTrailer };
         var nodes = transaction.Heading.Concat(transaction.Detail).Concat(transaction.Summary).ToArray();
-        ParseSequence(specification, nodes, stops, cursor, accepted, diagnostics);
+        ParseSequence(specification, nodes, stops, cursor, accepted, placements, diagnostics);
 
         var segments = accepted.Select(segment => segment.Segment).ToArray();
         var header = segments.FirstOrDefault(segment => string.Equals(segment.Tag, StartTag(transaction.Heading[0]), StringComparison.Ordinal));
@@ -212,7 +213,8 @@ internal static class X12StructureReader
                 Count(trailer, FirstElement),
                 segments.Length,
                 segments),
-            accepted);
+            accepted,
+            placements);
     }
 
     private static void ParseSequence(
@@ -221,6 +223,7 @@ internal static class X12StructureReader
         IReadOnlySet<string> parentStops,
         Cursor cursor,
         List<ParsedSegment> accepted,
+        List<Placement> placements,
         List<SpecificationDiagnostic> diagnostics)
     {
         for (var index = 0; index < nodes.Count; index++)
@@ -247,11 +250,13 @@ internal static class X12StructureReader
                             childStops.Add(start);
                         }
 
-                        ParseSequence(specification, node.Children, childStops, cursor, accepted, diagnostics);
+                        var children = new List<Placement>();
+                        ParseSequence(specification, node.Children, childStops, cursor, accepted, children, diagnostics);
+                        placements.Add(new LoopPlacement(node.Id, node.LoopId, children));
                     }
                     else
                     {
-                        AcceptNode(specification, node, cursor, accepted, diagnostics);
+                        AcceptNode(specification, node, cursor, accepted, placements, diagnostics);
                     }
 
                     count++;
@@ -278,6 +283,9 @@ internal static class X12StructureReader
                         current.Tag));
                 }
 
+                var extension = new ParsedSegment(new X12Segment(current.Tag, current.Elements), null, current.Tag);
+                accepted.Add(extension);
+                placements.Add(new SegmentPlacement(current.Tag, extension));
                 cursor.Index++;
             }
 
@@ -317,13 +325,16 @@ internal static class X12StructureReader
         CompiledNode node,
         Cursor cursor,
         List<ParsedSegment> accepted,
+        List<Placement> placements,
         List<SpecificationDiagnostic> diagnostics)
     {
         var token = cursor.Current ?? throw new InvalidOperationException("A structure node was accepted without a segment.");
         cursor.Index++;
         if (node.SegmentRef is null || !specification.Segments.TryGetValue(node.SegmentRef, out var definition))
         {
-            accepted.Add(new ParsedSegment(new X12Segment(token.Tag, token.Elements), null, node.Id));
+            var undefined = new ParsedSegment(new X12Segment(token.Tag, token.Elements), null, node.Id);
+            accepted.Add(undefined);
+            placements.Add(new SegmentPlacement(node.Id, undefined));
             diagnostics.Add(ReaderDiagnostics.Error(
                 DiagnosticCodes.Structure,
                 $"Segment '{token.Tag}' has no compiled definition.",
@@ -332,7 +343,9 @@ internal static class X12StructureReader
         }
 
         var segment = ElementConstraintChecker.Check(token, definition, diagnostics);
-        accepted.Add(new ParsedSegment(segment, definition.Id, node.Id));
+        var parsed = new ParsedSegment(segment, definition.Id, node.Id);
+        accepted.Add(parsed);
+        placements.Add(new SegmentPlacement(node.Id, parsed));
     }
 
     private static HashSet<string> Following(IReadOnlyList<CompiledNode> nodes, int start, IReadOnlySet<string> parentStops)

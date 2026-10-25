@@ -5,7 +5,10 @@ namespace EdiMorph.X12;
 
 internal sealed record ParsedSegment(X12Segment Segment, string? DefinitionId, string OccurrenceId);
 
-internal sealed record ParsedTransaction(X12TransactionSet Transaction, IReadOnlyList<ParsedSegment> Segments);
+internal sealed record ParsedTransaction(
+    X12TransactionSet Transaction,
+    IReadOnlyList<ParsedSegment> Segments,
+    IReadOnlyList<Placement> Placements);
 
 internal sealed class ParsedInterchange
 {
