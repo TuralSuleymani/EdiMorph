@@ -1,0 +1,200 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.AT8.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "AT8",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 7,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "AT801",
+      "dataElementId": "187",
+      "name": "WeightQualifier",
+      "dataType": "ID",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 2
+        },
+        "allowedValues": [
+          "A",
+          "A1",
+          "A2",
+          "A3",
+          "A4",
+          "B",
+          "C",
+          "CD",
+          "CE",
+          "D",
+          "DR",
+          "E",
+          "F",
+          "FR",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "LC",
+          "M",
+          "N",
+          "ND",
+          "NI",
+          "NR",
+          "NT",
+          "O",
+          "P",
+          "PA",
+          "Q",
+          "R",
+          "RG",
+          "RN",
+          "RT",
+          "S",
+          "SF",
+          "SI",
+          "SK",
+          "SO",
+          "T",
+          "U",
+          "V",
+          "W",
+          "WA",
+          "WB",
+          "WG",
+          "WJ",
+          "X",
+          "Y",
+          "Z"
+        ]
+      }
+    },
+    "02": {
+      "reference": "AT802",
+      "dataElementId": "188",
+      "name": "WeightUnitCode",
+      "dataType": "ID",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "E",
+          "G",
+          "K",
+          "L",
+          "M",
+          "O",
+          "S",
+          "T"
+        ]
+      }
+    },
+    "03": {
+      "reference": "AT803",
+      "dataElementId": "81",
+      "name": "Weight",
+      "dataType": "R",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 10
+        }
+      }
+    },
+    "04": {
+      "reference": "AT804",
+      "dataElementId": "80",
+      "name": "LadingQuantity",
+      "dataType": "N0",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 7
+        },
+        "lexicalFormat": "digits",
+        "implicitDecimalPlaces": 0
+      }
+    },
+    "05": {
+      "reference": "AT805",
+      "dataElementId": "80",
+      "name": "LadingQuantity",
+      "dataType": "N0",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 7
+        },
+        "lexicalFormat": "digits",
+        "implicitDecimalPlaces": 0
+      }
+    },
+    "06": {
+      "reference": "AT806",
+      "dataElementId": "184",
+      "name": "VolumeUnitQualifier",
+      "dataType": "ID",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "L",
+          "M",
+          "N",
+          "R",
+          "S",
+          "T",
+          "U",
+          "V",
+          "X"
+        ]
+      }
+    },
+    "07": {
+      "reference": "AT807",
+      "dataElementId": "183",
+      "name": "Volume",
+      "dataType": "R",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 8
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.MS3.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "MS3",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 5,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "MS301",
+      "dataElementId": "140",
+      "name": "StandardCarrierAlphaCode",
+      "dataType": "ID",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 4
+        }
+      }
+    },
+    "02": {
+      "reference": "MS302",
+      "dataElementId": "133",
+      "name": "RoutingSequenceCode",
+      "dataType": "ID",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 2
+        },
+        "allowedValues": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "A",
+          "B",
+          "D",
+          "H",
+          "I",
+          "JD",
+          "JO",
+          "M",
+          "O",
+          "R",
+          "S",
+          "V",
+          "X",
+          "Z"
+        ]
+      }
+    },
+    "03": {
+      "reference": "MS303",
+      "dataElementId": "19",
+      "name": "CityName",
+      "dataType": "AN",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 30
+        }
+      }
+    },
+    "04": {
+      "reference": "MS304",
+      "dataElementId": "91",
+      "name": "TransportationMethodTypeCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 2
+        },
+        "allowedValues": [
+          "6",
+          "7",
+          "A",
+          "AC",
+          "AE",
+          "AF",
+          "AH",
+          "AR",
+          "B",
+          "BP",
+          "BU",
+          "C",
+          "CE",
+          "D",
+          "DA",
+          "DW",
+          "E",
+          "ED",
+          "F",
+          "FA",
+          "FL",
+          "GG",
+          "GR",
+          "GS",
+          "H",
+          "HH",
+          "I",
+          "J",
+          "K",
+          "L",
+          "LA",
+          "LT",
+          "M",
+          "MB",
+          "MP",
+          "N",
+          "O",
+          "P",
+          "PA",
+          "PG",
+          "PL",
+          "PP",
+          "PR",
+          "PT",
+          "Q",
+          "R",
+          "RC",
+          "RR",
+          "S",
+          "SB",
+          "SC",
+          "SD",
+          "SE",
+          "SR",
+          "SS",
+          "ST",
+          "T",
+          "TA",
+          "TC",
+          "TT",
+          "U",
+          "VA",
+          "VE",
+          "VL",
+          "W",
+          "WP",
+          "X",
+          "Y",
+          "Y1",
+          "Y2",
+          "ZZ"
+        ]
+      }
+    },
+    "05": {
+      "reference": "MS305",
+      "dataElementId": "156",
+      "name": "StateOrProvinceCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        }
+      }
+    }
+  }
+}

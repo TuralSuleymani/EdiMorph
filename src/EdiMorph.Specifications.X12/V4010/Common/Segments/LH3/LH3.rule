@@ -1,0 +1,87 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.LH3.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "LH3",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 4,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "LH301",
+      "dataElementId": "224",
+      "name": "HazardousMaterialShippingName",
+      "dataType": "AN",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 25
+        }
+      }
+    },
+    "02": {
+      "reference": "LH302",
+      "dataElementId": "984",
+      "name": "HazardousMaterialShippingNameQualifier",
+      "dataType": "ID",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "C",
+          "D",
+          "I"
+        ]
+      }
+    },
+    "03": {
+      "reference": "LH303",
+      "dataElementId": "985",
+      "name": "NOSIndicatorCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 3,
+          "max": 3
+        },
+        "allowedValues": [
+          "NOS"
+        ]
+      }
+    },
+    "04": {
+      "reference": "LH304",
+      "dataElementId": "1073",
+      "name": "YesNoConditionOrResponseCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "N",
+          "U",
+          "W",
+          "Y"
+        ]
+      }
+    }
+  }
+}

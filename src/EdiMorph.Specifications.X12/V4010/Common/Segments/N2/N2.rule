@@ -1,0 +1,45 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.N2.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "N2",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 2,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "N201",
+      "dataElementId": "93",
+      "name": "Name",
+      "dataType": "AN",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 60
+        }
+      }
+    },
+    "02": {
+      "reference": "N202",
+      "dataElementId": "93",
+      "name": "Name",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 60
+        }
+      }
+    }
+  }
+}

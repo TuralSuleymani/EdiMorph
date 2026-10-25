@@ -1,0 +1,47 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.SE.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "SE",
+  "scope": "transaction-set-trailer",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 2,
+    "preserveRaw": true,
+    "noTrailingElementOmission": true
+  },
+  "elements": {
+    "01": {
+      "reference": "SE01",
+      "dataElementId": "96",
+      "name": "NumberOfIncludedSegments",
+      "dataType": "N0",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 10
+        },
+        "lexicalFormat": "digits",
+        "implicitDecimalPlaces": 0
+      }
+    },
+    "02": {
+      "reference": "SE02",
+      "dataElementId": "329",
+      "name": "TransactionSetControlNumber",
+      "dataType": "AN",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 4,
+          "max": 9
+        }
+      }
+    }
+  }
+}

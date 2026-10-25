@@ -1,0 +1,148 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.N7B.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "N7B",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 6,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "N7B01",
+      "dataElementId": "1024",
+      "name": "NumberOfTankCompartments",
+      "dataType": "N0",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 2
+        },
+        "lexicalFormat": "digits",
+        "implicitDecimalPlaces": 0
+      }
+    },
+    "02": {
+      "reference": "N7B02",
+      "dataElementId": "1025",
+      "name": "LoadingOrDischargeLocationCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "B",
+          "C",
+          "R"
+        ]
+      }
+    },
+    "03": {
+      "reference": "N7B03",
+      "dataElementId": "1026",
+      "name": "VesselMaterialCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 3,
+          "max": 3
+        },
+        "allowedValues": [
+          "999",
+          "ALU",
+          "CST",
+          "FBG",
+          "NIK",
+          "SST",
+          "TTN"
+        ]
+      }
+    },
+    "04": {
+      "reference": "N7B04",
+      "dataElementId": "1030",
+      "name": "GasketTypeCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 3,
+          "max": 3
+        },
+        "allowedValues": [
+          "999",
+          "ASB",
+          "BUN",
+          "BUT",
+          "EPD",
+          "FDA",
+          "HYP",
+          "KAL",
+          "LEA",
+          "NAT",
+          "NEO",
+          "SAN",
+          "TEF",
+          "VIT"
+        ]
+      }
+    },
+    "05": {
+      "reference": "N7B05",
+      "dataElementId": "1031",
+      "name": "TrailerLiningTypeCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 3,
+          "max": 3
+        },
+        "allowedValues": [
+          "999",
+          "BUT",
+          "CER",
+          "CHL",
+          "DER",
+          "HAL",
+          "HER",
+          "KYN",
+          "NAT",
+          "NIC",
+          "POL",
+          "TEF",
+          "VIT"
+        ]
+      }
+    },
+    "06": {
+      "reference": "N7B06",
+      "dataElementId": "127",
+      "name": "ReferenceIdentification",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 30
+        }
+      }
+    }
+  }
+}

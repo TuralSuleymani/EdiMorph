@@ -1,0 +1,73 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.LEP.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "LEP",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 4,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "LEP01",
+      "dataElementId": "806",
+      "name": "EPAWasteStreamNumberCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 4,
+          "max": 6
+        }
+      }
+    },
+    "02": {
+      "reference": "LEP02",
+      "dataElementId": "807",
+      "name": "WasteCharacteristicsCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 12,
+          "max": 16
+        }
+      }
+    },
+    "03": {
+      "reference": "LEP03",
+      "dataElementId": "156",
+      "name": "StateOrProvinceCode",
+      "dataType": "ID",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        }
+      }
+    },
+    "04": {
+      "reference": "LEP04",
+      "dataElementId": "127",
+      "name": "ReferenceIdentification",
+      "dataType": "AN",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 30
+        }
+      }
+    }
+  }
+}

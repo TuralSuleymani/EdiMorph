@@ -1,0 +1,77 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.LH6.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "LH6",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 4,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "LH601",
+      "dataElementId": "93",
+      "name": "Name",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 60
+        }
+      }
+    },
+    "02": {
+      "reference": "LH602",
+      "dataElementId": "272",
+      "name": "HazardousCertificationCode",
+      "dataType": "ID",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "1",
+          "2"
+        ]
+      }
+    },
+    "03": {
+      "reference": "LH603",
+      "dataElementId": "273",
+      "name": "HazardousCertificationDeclaration",
+      "dataType": "AN",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 25
+        }
+      }
+    },
+    "04": {
+      "reference": "LH604",
+      "dataElementId": "273",
+      "name": "HazardousCertificationDeclaration",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 25
+        }
+      }
+    }
+  }
+}

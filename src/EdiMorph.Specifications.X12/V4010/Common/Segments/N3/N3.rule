@@ -1,0 +1,45 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.N3.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "N3",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 2,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "N301",
+      "dataElementId": "166",
+      "name": "AddressInformation",
+      "dataType": "AN",
+      "usage": "M",
+      "presence": "mandatory",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 55
+        }
+      }
+    },
+    "02": {
+      "reference": "N302",
+      "dataElementId": "166",
+      "name": "AddressInformation",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 55
+        }
+      }
+    }
+  }
+}

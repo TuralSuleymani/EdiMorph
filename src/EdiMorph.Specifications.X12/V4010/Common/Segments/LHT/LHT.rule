@@ -1,0 +1,59 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.LHT.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "LHT",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 3,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "LHT01",
+      "dataElementId": "215",
+      "name": "HazardousClassification",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 30
+        }
+      }
+    },
+    "02": {
+      "reference": "LHT02",
+      "dataElementId": "218",
+      "name": "HazardousPlacardNotation",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 14,
+          "max": 40
+        }
+      }
+    },
+    "03": {
+      "reference": "LHT03",
+      "dataElementId": "222",
+      "name": "HazardousEndorsement",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 4,
+          "max": 25
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,197 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.N7A.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "N7A",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 9,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "N7A01",
+      "dataElementId": "1042",
+      "name": "LoadOrDeviceCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "allowedValues": [
+          "AC",
+          "BL",
+          "BS",
+          "PS",
+          "PU"
+        ]
+      }
+    },
+    "02": {
+      "reference": "N7A02",
+      "dataElementId": "82",
+      "name": "Length",
+      "dataType": "R",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 8
+        }
+      }
+    },
+    "03": {
+      "reference": "N7A03",
+      "dataElementId": "1043",
+      "name": "Diameter",
+      "dataType": "R",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 2
+        }
+      }
+    },
+    "04": {
+      "reference": "N7A04",
+      "dataElementId": "1044",
+      "name": "HoseTypeCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 3,
+          "max": 3
+        },
+        "allowedValues": [
+          "AAM",
+          "ACD",
+          "CEM",
+          "CRO",
+          "FDA",
+          "GAL",
+          "HOT",
+          "LIQ",
+          "NIR",
+          "NIT",
+          "PUR",
+          "SST",
+          "TEF",
+          "VIT"
+        ]
+      }
+    },
+    "05": {
+      "reference": "N7A05",
+      "dataElementId": "1043",
+      "name": "Diameter",
+      "dataType": "R",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 2
+        }
+      }
+    },
+    "06": {
+      "reference": "N7A06",
+      "dataElementId": "1043",
+      "name": "Diameter",
+      "dataType": "R",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 2
+        }
+      }
+    },
+    "07": {
+      "reference": "N7A07",
+      "dataElementId": "1045",
+      "name": "InletOrOutletMaterialTypeCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "allowedValues": [
+          "AL",
+          "BR",
+          "IR",
+          "NS",
+          "SS"
+        ]
+      }
+    },
+    "08": {
+      "reference": "N7A08",
+      "dataElementId": "1046",
+      "name": "InletOrOutletFittingTypeCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "allowedValues": [
+          "AC",
+          "DF",
+          "DM",
+          "QF",
+          "QM",
+          "TH",
+          "TM"
+        ]
+      }
+    },
+    "09": {
+      "reference": "N7A09",
+      "dataElementId": "1047",
+      "name": "MiscellaneousEquipmentCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 2,
+          "max": 2
+        },
+        "allowedValues": [
+          "AD",
+          "AF",
+          "AI",
+          "CY",
+          "DB",
+          "DR",
+          "ME",
+          "ND",
+          "NO",
+          "PR",
+          "SC",
+          "SE",
+          "VI"
+        ]
+      }
+    }
+  }
+}

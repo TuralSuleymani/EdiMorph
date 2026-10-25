@@ -1,0 +1,239 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "x12.segment.L5.v4010",
+  "kind": "segment",
+  "format": "X12",
+  "version": "004010",
+  "tag": "L5",
+  "scope": "transaction-multiple-contexts",
+  "layout": {
+    "kind": "delimited-elements",
+    "elementCount": 10,
+    "preserveRaw": true,
+    "noTrailingElementOmission": false
+  },
+  "elements": {
+    "01": {
+      "reference": "L501",
+      "dataElementId": "213",
+      "name": "LadingLineItemNumber",
+      "dataType": "N0",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 3
+        },
+        "lexicalFormat": "digits",
+        "implicitDecimalPlaces": 0
+      }
+    },
+    "02": {
+      "reference": "L502",
+      "dataElementId": "79",
+      "name": "LadingDescription",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 50
+        }
+      }
+    },
+    "03": {
+      "reference": "L503",
+      "dataElementId": "22",
+      "name": "CommodityCode",
+      "dataType": "AN",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 30
+        }
+      }
+    },
+    "04": {
+      "reference": "L504",
+      "dataElementId": "23",
+      "name": "CommodityCodeQualifier",
+      "dataType": "ID",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "2",
+          "3",
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "P",
+          "Q",
+          "S",
+          "T",
+          "U",
+          "V",
+          "Z"
+        ]
+      }
+    },
+    "05": {
+      "reference": "L505",
+      "dataElementId": "103",
+      "name": "PackagingCode",
+      "dataType": "AN",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 3,
+          "max": 5
+        }
+      }
+    },
+    "06": {
+      "reference": "L506",
+      "dataElementId": "87",
+      "name": "MarksAndNumbers",
+      "dataType": "AN",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 48
+        }
+      }
+    },
+    "07": {
+      "reference": "L507",
+      "dataElementId": "88",
+      "name": "MarksAndNumbersQualifier",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 2
+        },
+        "allowedValues": [
+          "AA",
+          "AI",
+          "CA",
+          "CP",
+          "DZ",
+          "GM",
+          "L",
+          "MC",
+          "PB",
+          "R",
+          "S",
+          "SI",
+          "SM",
+          "SR",
+          "SS",
+          "UC",
+          "UP",
+          "W",
+          "X",
+          "ZZ"
+        ]
+      }
+    },
+    "08": {
+      "reference": "L508",
+      "dataElementId": "23",
+      "name": "CommodityCodeQualifier",
+      "dataType": "ID",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "2",
+          "3",
+          "A",
+          "B",
+          "C",
+          "D",
+          "E",
+          "F",
+          "G",
+          "H",
+          "I",
+          "J",
+          "K",
+          "L",
+          "M",
+          "N",
+          "P",
+          "Q",
+          "S",
+          "T",
+          "U",
+          "V",
+          "Z"
+        ]
+      }
+    },
+    "09": {
+      "reference": "L509",
+      "dataElementId": "22",
+      "name": "CommodityCode",
+      "dataType": "AN",
+      "usage": "C",
+      "presence": "conditional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 30
+        }
+      }
+    },
+    "10": {
+      "reference": "L510",
+      "dataElementId": "595",
+      "name": "CompartmentIDCode",
+      "dataType": "ID",
+      "usage": "O",
+      "presence": "optional",
+      "constraints": {
+        "length": {
+          "min": 1,
+          "max": 1
+        },
+        "allowedValues": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      }
+    }
+  }
+}
