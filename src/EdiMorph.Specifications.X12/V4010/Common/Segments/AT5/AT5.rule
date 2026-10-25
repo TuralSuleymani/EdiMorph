@@ -753,5 +753,8 @@
         }
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_AT5_SYNTAX"
+  ]
 }

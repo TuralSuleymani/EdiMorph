@@ -26,4 +26,10 @@ public static class DiagnosticCodes
     public const string UnsupportedRuleFormat = "EDI1010";
 
     public const string JsonRelationalOperator = "EDI1011";
+
+    public const string RelationalSyntax = "EDI1101";
+
+    public const string EnvelopeIntegrity = "EDI1102";
+
+    public const string TransactionSyntax = "EDI1103";
 }

@@ -230,5 +230,8 @@
         { "id": "summary.SE", "sequence": "020", "segment": "SE", "segmentRef": "x12.segment.SE.v4010", "usage": "M", "minOccurs": 1, "maxOccurs": 1 }
       ]
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_204_SYNTAX"
+  ]
 }

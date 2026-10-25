@@ -503,5 +503,8 @@
         }
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_N7_SYNTAX"
+  ]
 }

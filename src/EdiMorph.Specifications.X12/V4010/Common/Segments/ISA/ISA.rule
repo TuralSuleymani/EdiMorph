@@ -381,5 +381,8 @@
       },
       "role": "component-separator"
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_ISA_AUTH_SEMANTICS"
+  ]
 }

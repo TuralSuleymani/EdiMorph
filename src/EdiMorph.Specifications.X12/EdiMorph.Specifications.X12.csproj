@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EdiMorph.Abstractions\EdiMorph.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="**\*.rule" Exclude="$(BaseIntermediateOutputPath)**\*;$(BaseOutputPath)**\*;bin\**\*;obj\**\*">
       <LogicalName>$([System.String]::Copy('%(RelativeDir)%(Filename)%(Extension)').Replace('\','/'))</LogicalName>
     </EmbeddedResource>

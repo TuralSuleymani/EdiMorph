@@ -83,5 +83,8 @@
         ]
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_LH3_SYNTAX"
+  ]
 }

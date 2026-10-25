@@ -88,5 +88,8 @@
         }
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_PLD_SYNTAX"
+  ]
 }

@@ -1790,5 +1790,8 @@
         }
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_LAD_SYNTAX"
+  ]
 }

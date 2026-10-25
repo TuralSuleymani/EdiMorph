@@ -69,5 +69,8 @@
         }
       }
     }
-  }
+  },
+  "customRules": [
+    "X12_V4010_LEP_SYNTAX"
+  ]
 }

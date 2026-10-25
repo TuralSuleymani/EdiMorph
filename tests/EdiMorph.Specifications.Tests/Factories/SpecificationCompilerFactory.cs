@@ -1,6 +1,7 @@
 using EdiMorph.Rules;
 using EdiMorph.Specifications;
 using EdiMorph.Specifications.X12;
+using EdiMorph.Specifications.X12.V4010;
 
 namespace EdiMorph.Specifications.Tests.Factories;
 
@@ -28,52 +29,29 @@ internal static class SpecificationCompilerFactory
         return new SpecificationCompiler(catalog, rules ?? new RuleRegistry());
     }
 
-    public static RuleRegistry CreateStandardRules(bool includeIsaAuthorization = false, bool includeFixtureGuide = false)
+    public static RuleRegistry CreateStandardRules(bool includeFixtureGuide = false)
     {
         var registry = new RuleRegistry();
-        registry.Register(Descriptor<EnvelopeSubject>(
-            TestDefaults.EnvelopeIntegrityRuleId,
-            RuleScope.Envelope,
-            mandatory: true));
-        if (includeIsaAuthorization)
-        {
-            registry.Register(Descriptor<SegmentSubject>(
-                TestDefaults.IsaAuthorizationRuleId,
-                RuleScope.Segment,
-                mandatory: true));
-        }
-
+        X12V4010Rules.Register(registry);
         if (includeFixtureGuide)
         {
-            registry.Register(Descriptor<ProviderSubject>(
+            registry.Register(RuleHandlerDescriptor.Create<AcceptingValidator, ProviderSubject>(
                 TestDefaults.FixtureGuideRuleId,
                 RuleScope.Provider,
-                mandatory: false));
+                mandatory: false,
+                TestDefaults.X12Format,
+                TestDefaults.X12Version));
         }
 
         return registry;
     }
 
-    private static RuleHandlerDescriptor Descriptor<TSubject>(string ruleId, RuleScope scope, bool mandatory)
-    {
-        return RuleHandlerDescriptor.Create<AcceptingValidator<TSubject>, TSubject>(
-            ruleId,
-            scope,
-            mandatory,
-            TestDefaults.X12Format,
-            TestDefaults.X12Version);
-    }
-
-    private sealed record EnvelopeSubject;
-
-    private sealed record SegmentSubject;
-
     private sealed record ProviderSubject;
 
-    private sealed class AcceptingValidator<TSubject> : IRuleValidator<TSubject>
+    private sealed class AcceptingValidator : IRuleValidator<ProviderSubject>
     {
         public ValueTask<RuleResult> ValidateAsync(
-            TSubject subject,
+            ProviderSubject subject,
             RuleContext context,
             CancellationToken cancellationToken = default)
         {
