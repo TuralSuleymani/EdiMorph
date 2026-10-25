@@ -32,4 +32,12 @@ public static class DiagnosticCodes
     public const string EnvelopeIntegrity = "EDI1102";
 
     public const string TransactionSyntax = "EDI1103";
+
+    public const string MalformedInterchange = "EDI1201";
+
+    public const string Structure = "EDI1202";
+
+    public const string ElementConstraint = "EDI1203";
+
+    public const string HandlerSubject = "EDI1204";
 }

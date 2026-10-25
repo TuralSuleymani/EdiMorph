@@ -278,8 +278,16 @@ internal static class RuleDocumentParser
             int? max = null;
             if (constraints?["length"] is JsonObject length)
             {
-                min = ReadInt(length, "min");
-                max = ReadInt(length, "max");
+                if (ReadInt(length, "exact") is int exactLength)
+                {
+                    min = exactLength;
+                    max = exactLength;
+                }
+                else
+                {
+                    min = ReadInt(length, "min");
+                    max = ReadInt(length, "max");
+                }
             }
             else if (constraints?["physicalLength"] is JsonObject physical && ReadInt(physical, "exact") is int exact)
             {
