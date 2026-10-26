@@ -1,0 +1,13 @@
+<Project>
+
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <Authors>Tural Suleymani</Authors>
+    <RepositoryUrl>https://github.com/TuralSuleymani/EdiMorph</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageProjectUrl>https://github.com/TuralSuleymani/EdiMorph</PackageProjectUrl>
+    <PackageTags>edi;x12</PackageTags>
+    <Description>Extensible .NET library for schema-driven EDI parsing and validation.</Description>
+  </PropertyGroup>
+
+</Project>

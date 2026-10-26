@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>EdiMorph.Specifications</RootNamespace>
+    <Description>Catalog, resolver, and compiler that produce an immutable EDI specification.</Description>
   </PropertyGroup>
 
   <ItemGroup>
