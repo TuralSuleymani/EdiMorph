@@ -1,7 +1,8 @@
 <Project>
 
   <PropertyGroup>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <Authors>Tural Suleymani, suleymani.2ral@gmail.com</Authors>
     <RepositoryUrl>https://github.com/TuralSuleymani/EdiMorph</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -9,5 +10,9 @@
     <PackageTags>edi;x12</PackageTags>
     <Description>Extensible .NET library for schema-driven EDI parsing and validation.</Description>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
 </Project>
