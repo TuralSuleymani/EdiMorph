@@ -2,7 +2,7 @@
 
 > A standards-first .NET library for EDI. Each format, version, and transaction is implemented once. A provider adds a profile, override rules, and C# handlers for the differences in its implementation guide.
 
-This document describes the pipeline, the decisions behind it, and how to read an X12 004010 transaction 204. Version **0.1.1** is that reader. **1.0.0** waits until the main transactions for a full provider integration are in place.
+This document describes the pipeline, the decisions behind it, and how to read an X12 004010 transaction 204. Version **0.2.0** reads that transaction and maps it to a 004010 `LoadTender`. **1.0.0** waits until the main transactions for a full provider integration are in place.
 
 ---
 
@@ -31,7 +31,7 @@ This document describes the pipeline, the decisions behind it, and how to read a
 ## Features
 
 - **One specification per format, version, and transaction** - X12 004010 204 and a future 005010 204 are different specifications. Versions do not inherit segment dictionaries.
-- **Typed transaction, not a canonical model** - the reader returns `Transaction204`. A provider overlay changes constraints and diagnostics. It does not change the CLR type.
+- **Parsed 204 and a version-scoped LoadTender** - `Transaction204` keeps the X12 segments. `LoadTender` names the 004010 fields a host may depend on. A provider overlay changes constraints and diagnostics. It does not change either CLR type. A future 005010 tender is a separate type. The host's own load model stays outside this library.
 - **Local constraints in JSON, cross-field rules in C#** - `.rule` files hold identity, layout, element types, lengths, usage, code lists, and handler ids. Comparisons, conditionals, counts, and envelope integrity are C# classes.
 - **Provider profiles tighten the standard** - a profile may restrict codes, lengths, usage, and occurrences. Loosening a standard rule requires an explicit partner-dialect profile that cites the parent rule.
 - **Stable diagnostics** - a bad interchange returns `X12ReadResult` with `EDI1xxx` codes. The reader does not throw for EDI that fails validation.
@@ -42,7 +42,7 @@ Transport such as AS2, SFTP, and HTTP stays in the host. EdiMorph starts at the 
 
 ## High-level diagram
 
-The host owns the connection. EdiMorph compiles a specification, reads one interchange, and returns the typed transaction plus diagnostics.
+The host owns the connection. EdiMorph compiles a specification, reads one interchange, and returns the typed 204, its `LoadTender`, and diagnostics.
 
 ```mermaid
 flowchart TB
@@ -62,7 +62,7 @@ flowchart TB
   Profile --> Catalog
   Catalog --> Compiler
   Compiler -->|CompiledSpecification| Reader
-  Reader -->|Transaction204 and diagnostics| Connector
+  Reader -->|Transaction204 LoadTender and diagnostics| Connector
 ```
 
 ---
@@ -83,7 +83,7 @@ flowchart TB
   subgraph assets [004010 assets]
     Rules[Embedded .rule documents]
     Handlers[Syntax and envelope handlers]
-    Model[Transaction204]
+    Model[Transaction204 and LoadTender]
   end
 
   Specifications --> Abstractions
@@ -120,6 +120,7 @@ flowchart LR
   subgraph result [Result]
     Envelope[X12Envelope]
     Tender[Transaction204]
+    LoadTender[LoadTender]
     Diagnostics[SpecificationDiagnostic]
   end
 
@@ -132,6 +133,7 @@ flowchart LR
   Reader --> Rules
   Reader --> Envelope
   Reader --> Tender
+  Tender --> LoadTender
   Reader --> Diagnostics
 ```
 
@@ -139,7 +141,7 @@ flowchart LR
 
 ## Request diagram
 
-A read has two steps. Compile selects the standard, and optionally a provider profile. Read walks one interchange against that compiled specification.
+A read has three steps. Compile selects the standard, and optionally a provider profile. Read walks one interchange against that compiled specification. Each parsed 204 is then projected to a `LoadTender`.
 
 ```mermaid
 flowchart LR
@@ -185,7 +187,7 @@ sequenceDiagram
   Reader->>Reader: Tokenize from the 106-character ISA
   Reader->>Reader: Walk envelope and 204 structure
   Reader->>Registry: Run bound handlers
-  Reader-->>Host: X12ReadResult
+  Reader-->>Host: X12ReadResult with Transaction204 and LoadTender
 ```
 
 The base specification is cached. A provider overlay is cached separately and shares the segments it does not change. A failed compilation is not cached.
@@ -200,10 +202,10 @@ Install the reader. NuGet restores the other three at the same version.
 | --- | --- |
 | `EdiMorph.Abstractions` | `SpecificationRequest`, diagnostics, rule scope, and the handler contract |
 | `EdiMorph.Specifications` | Catalog, resolver, tightening-only composer, compiler, and the compiled specification |
-| `EdiMorph.Specifications.X12` | Embedded 004010 `.rule` documents, syntax handlers, and `Transaction204` |
-| `EdiMorph.X12` | Tokenizer, structure walk, element checks, and `X12Reader` |
+| `EdiMorph.Specifications.X12` | Embedded 004010 `.rule` documents, syntax handlers, `Transaction204`, and `LoadTender` |
+| `EdiMorph.X12` | Tokenizer, structure walk, element checks, `X12Reader`, and `LoadTenderMapper` |
 
-`X12ReadResult.Transactions` is the 204 list. A later transaction is added as its own member. Replacing `Transactions` is a 2.0.0 change.
+`X12ReadResult.Transactions` is the parsed 204 list. `LoadTenders` is the same list after mapping. A 204 with errors still has a `LoadTender`. A malformed interchange has an empty list. A later transaction is added as its own member. Replacing `Transactions` is a 2.0.0 change.
 
 ---
 
@@ -223,14 +225,14 @@ Install the reader. NuGet restores the other three at the same version.
 
 | Decision | Rationale |
 | --- | --- |
-| **No canonical shipment, invoice, or load model** | Providers share the standard transaction type. Portal mapping stays in the host. |
+| **Version-scoped LoadTender** | 004010 204 maps to one `LoadTender` for every provider. The host maps that into its own model. 005010 gets its own tender type. |
 | **JSON for local constraints only** | Length, usage, code lists, and occurrence grammar are data. Cross-field comparisons in JSON were rejected. |
 | **C# for relational syntax** | X12 P, R, C, E, and L notes, envelope control numbers, and 204 stop order are code. |
 | **Standard subset by default** | A profile may tighten a rule. Widening usage, codes, or occurrences requires `partner-dialect` and `departsFrom`. |
 | **One class per segment syntax, one class per provider guide** | Standard handlers are reusable. A provider guide class lives with that provider, outside this package. |
 | **004010 and 005010 do not share a dictionary** | The reuse key is format + version + transaction. |
 | **Inbound reader first** | The host generates outbound EDI. This library validates and reads what arrived. |
-| **Shared package version** | All four packages ship as one product. `0.2.0` adds a transaction. `0.1.x` stays compatible for the 204 surface. |
+| **Shared package version** | All four packages ship as one product. `0.2.0` adds the 004010 `LoadTender`. A new transaction is the next minor. |
 | **Public package has no partner guide** | Partner profiles, samples, and implementation guides are not embedded here. |
 
 ---
@@ -259,10 +261,10 @@ Install the reader. NuGet restores the other three at the same version.
 
 | Package | Version |
 | --- | --- |
-| `EdiMorph.Abstractions` | 0.1.1 |
-| `EdiMorph.Specifications` | 0.1.1 |
-| `EdiMorph.Specifications.X12` | 0.1.1 |
-| `EdiMorph.X12` | 0.1.1 |
+| `EdiMorph.Abstractions` | 0.2.0 |
+| `EdiMorph.Specifications` | 0.2.0 |
+| `EdiMorph.Specifications.X12` | 0.2.0 |
+| `EdiMorph.X12` | 0.2.0 |
 
 Feed: [nuget.org/packages/EdiMorph.X12](https://www.nuget.org/packages/EdiMorph.X12).
 
@@ -286,7 +288,7 @@ EdiMorph/
 ├── src/
 │   ├── EdiMorph.Abstractions/             # Request, diagnostics, handler contract
 │   ├── EdiMorph.Specifications/           # Catalog, resolver, compiler
-│   ├── EdiMorph.Specifications.X12/       # 004010 rules, handlers, Transaction204
+│   ├── EdiMorph.Specifications.X12/       # 004010 rules, handlers, Transaction204, LoadTender
 │   │   └── V4010/
 │   │       ├── Common/                    # Syntax, envelope, segment rules
 │   │       └── Transactions/204/          # Typed 204
@@ -310,7 +312,7 @@ Prerequisites: the .NET 10 SDK.
 Install the reader:
 
 ```xml
-<PackageReference Include="EdiMorph.X12" Version="0.1.1" />
+<PackageReference Include="EdiMorph.X12" Version="0.2.0" />
 ```
 
 From this repository:
@@ -374,14 +376,14 @@ flowchart LR
 | `EdiMorph.Abstractions.Tests` | Request, registry, handler contract | 8 |
 | `EdiMorph.Specifications.Tests` | Compile, overlay, authoring, resolution | 19 |
 | `EdiMorph.Specifications.X12.Tests` | Envelope, ISA, segment syntax, 204 syntax | 12 |
-| `EdiMorph.X12.Tests` | Reader success and failure paths | 11 |
-| **Total** | | **50** |
+| `EdiMorph.X12.Tests` | Reader, `LoadTender` mapping, success and failure paths | 20 |
+| **Total** | | **59** |
 
 ```mermaid
 pie title Tests per test project
   "Specifications.Tests" : 19
   "Specifications.X12.Tests" : 12
-  "X12.Tests" : 11
+  "X12.Tests" : 20
   "Abstractions.Tests" : 8
 ```
 
@@ -391,12 +393,12 @@ pie title Tests per test project
 
 | Scenario | Behavior |
 | --- | --- |
-| ISA header is short, or delimiters are not distinct | `EDI1201`. No envelope and no transactions |
+| ISA header is short, or delimiters are not distinct | `EDI1201`. No envelope, no transactions, and no load tenders |
 | A mandatory segment is missing, or a segment is outside the structure | `EDI1202`. An unknown segment is also kept as an extension |
 | Usage, length, or allowed values fail | `EDI1203` |
 | A relational syntax note fails | `EDI1101` |
 | Envelope control numbers or counts disagree | `EDI1102` |
-| 204 stop sequence or stop weight disagrees | `EDI1103` |
+| 204 stop sequence or stop weight disagrees | `EDI1103`. The parsed 204 and its `LoadTender` are still returned |
 | A provider profile loosens the standard without a dialect citation | `EDI1004`. Compilation fails |
 | A `.rule` file contains a relational operator | `EDI1011`. Compilation fails |
 | A handler id is not registered | `EDI1006`. Compilation fails |
@@ -437,19 +439,19 @@ var specification = await compiler.CompileAsync(
 var result = await new X12Reader().ReadAsync(specification, rules, interchange);
 if (result.IsSuccess)
 {
-    var carrier = result.Transactions[0].Beginning?.Elements["02"];
+    var carrier = result.LoadTenders[0].Carrier;
 }
 ```
 
-`result.Transactions` contains each 204. `result.Diagnostics` lists every standard failure. A provider profile is a `SpecificationRequest` with a provider name and profile revision, plus that profile's `.rule` files added to the same catalog. Those files are not part of this package.
+`result.Transactions` contains each parsed 204. `result.LoadTenders` is that list mapped to the 004010 `LoadTender`. `result.Diagnostics` lists every standard failure, and a failed 204 is still mapped. A provider profile is a `SpecificationRequest` with a provider name and profile revision, plus that profile's `.rule` files added to the same catalog. Those files are not part of this package.
 
-`Transaction204` keeps X12 segments. `Beginning` is B2, `Stops` is loop 0300, and a segment the 204 structure does not name is an extension on the node where it appeared.
+`Transaction204` keeps X12 segments. `Beginning` is B2, `Stops` is loop 0300, and a segment the 204 structure does not name is an extension on the node where it appeared. `LoadTender` names carrier, purpose, references, parties, equipment, and stops. The same unnamed segment stays on `LoadTender.Extensions`. The host maps `LoadTender` into its own model.
 
 ---
 
 ## AI usage
 
-The architecture decisions in this library are mine: one specification per format, version, and transaction; JSON for local constraints; C# for cross-field rules; no canonical business model.
+The architecture decisions in this library are mine: one specification per format, version, and transaction; JSON for local constraints; C# for cross-field rules; a version-scoped 004010 `LoadTender`, with the host's own model kept outside the library.
 
 I used AI to help generate:
 
