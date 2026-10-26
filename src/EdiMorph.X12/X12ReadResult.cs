@@ -15,12 +15,15 @@ public sealed class X12ReadResult
         ArgumentNullException.ThrowIfNull(diagnostics);
         Envelope = envelope;
         Transactions = transactions;
+        LoadTenders = transactions.Select(LoadTenderMapper.Map).ToArray();
         Diagnostics = diagnostics;
     }
 
     public X12Envelope? Envelope { get; }
 
     public IReadOnlyList<Transaction204> Transactions { get; }
+
+    public IReadOnlyList<LoadTender> LoadTenders { get; }
 
     public IReadOnlyList<SpecificationDiagnostic> Diagnostics { get; }
 

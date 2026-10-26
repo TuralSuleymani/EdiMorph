@@ -100,6 +100,75 @@ public sealed class X12ReaderTests
         var extension = tender.Stops.Should().ContainSingle().Subject.Extensions.Should().ContainSingle().Subject;
         extension.Tag.Should().Be(X12InterchangeFactory.ExtensionTag);
         extension.Elements["01"].Should().Be(X12InterchangeFactory.ExtensionValue);
+        var loadTender = result.LoadTenders.Should().ContainSingle().Subject;
+        var mappedExtension = loadTender.Stops.Should().ContainSingle().Subject.Extensions.Should().ContainSingle().Subject;
+        mappedExtension.Tag.Should().Be(X12InterchangeFactory.ExtensionTag);
+        mappedExtension.Elements["01"].Should().Be(X12InterchangeFactory.ExtensionValue);
+    }
+
+    [Fact]
+    public async Task Read_When204HasTwoStops_ShouldMapTheLoadTender()
+    {
+        // Arrange
+        var interchange = X12InterchangeFactory.WithPartyOnEachStop();
+
+        // Act
+        var result = await _sut.ReadAsync(_specification, _rules, interchange);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        var tender = result.LoadTenders.Should().ContainSingle().Subject;
+        tender.Carrier.Should().Be(X12InterchangeFactory.CarrierCode);
+        tender.PaymentMethod.Should().Be(X12InterchangeFactory.PaymentMethod);
+        tender.Purpose.Should().Be(X12InterchangeFactory.PurposeCode);
+        tender.Stops.Should().HaveCount(2);
+        var shipFrom = tender.Stops[0];
+        shipFrom.Sequence.Should().Be(X12InterchangeFactory.FirstStop);
+        shipFrom.Reason.Should().Be(X12InterchangeFactory.Pickup);
+        shipFrom.Party.Should().NotBeNull();
+        var shipFromParty = shipFrom.Party!;
+        shipFromParty.Role.Should().Be(X12InterchangeFactory.ShipFromCode);
+        shipFromParty.Name.Should().Be(X12InterchangeFactory.ShipFromName);
+        var shipTo = tender.Stops[1];
+        shipTo.Sequence.Should().Be(X12InterchangeFactory.SecondStop);
+        shipTo.Party.Should().NotBeNull();
+        var shipToParty = shipTo.Party!;
+        shipToParty.Role.Should().Be(X12InterchangeFactory.ShipToCode);
+        shipToParty.Name.Should().Be(X12InterchangeFactory.ShipToName);
+    }
+
+    [Fact]
+    public async Task Read_WhenReferenceHasAQualifier_ShouldMapQualifierAndValue()
+    {
+        // Arrange
+        var interchange = X12InterchangeFactory.WithReference();
+
+        // Act
+        var result = await _sut.ReadAsync(_specification, _rules, interchange);
+
+        // Assert
+        result.IsSuccess.Should().BeTrue();
+        var reference = result.LoadTenders.Should().ContainSingle().Subject.References.Should().ContainSingle().Subject;
+        reference.Qualifier.Should().Be(X12InterchangeFactory.ReferenceQualifier);
+        reference.Value.Should().Be(X12InterchangeFactory.ReferenceValue);
+    }
+
+    [Fact]
+    public async Task Read_WhenStopWeightDisagrees_ShouldStillReturnTheLoadTender()
+    {
+        // Arrange
+        var interchange = X12InterchangeFactory.WithDisagreeingStopWeight();
+
+        // Act
+        var result = await _sut.ReadAsync(_specification, _rules, interchange);
+
+        // Assert
+        result.IsSuccess.Should().BeFalse();
+        var diagnostic = result.Diagnostics.Should().ContainSingle().Subject;
+        diagnostic.Code.Should().Be(DiagnosticCodes.TransactionSyntax);
+        diagnostic.Target.Should().Be("S503");
+        var tender = result.LoadTenders.Should().ContainSingle().Subject;
+        tender.Stops.Should().ContainSingle().Subject.Weight.Should().Be(X12InterchangeFactory.StopWeight);
     }
 
     [Fact]
@@ -114,6 +183,8 @@ public sealed class X12ReaderTests
         // Assert
         result.IsSuccess.Should().BeFalse();
         result.Envelope.Should().BeNull();
+        result.Transactions.Should().BeEmpty();
+        result.LoadTenders.Should().BeEmpty();
         result.Diagnostics.Should().ContainSingle().Which.Code.Should().Be(DiagnosticCodes.MalformedInterchange);
     }
 
