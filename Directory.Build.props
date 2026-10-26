@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <Version>0.1.0</Version>
-    <Authors>Tural Suleymani</Authors>
+    <Authors>Tural Suleymani, suleymani.2ral@gmail.com</Authors>
     <RepositoryUrl>https://github.com/TuralSuleymani/EdiMorph</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageProjectUrl>https://github.com/TuralSuleymani/EdiMorph</PackageProjectUrl>
