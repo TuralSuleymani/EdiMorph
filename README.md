@@ -23,8 +23,7 @@ This document describes the pipeline, the decisions behind it, and how to read a
 - [Getting started](#getting-started)
 - [Testing](#testing)
 - [Failure model](#failure-model)
-- [Read a 204](#read-a-204)
-- [AI usage](#ai-usage)
+- [Use it in your project](#use-it-in-your-project)
 
 ---
 
@@ -324,7 +323,7 @@ dotnet pack EdiMorph.slnx -c Release -o artifacts
 
 `dotnet pack` produces the four packages. Test projects set `IsPackable` to false.
 
-The read path is in [Read a 204](#read-a-204).
+A provider setup that ends at the 004010 204 `LoadTender` is in [Use it in your project](#use-it-in-your-project).
 
 ---
 
@@ -414,7 +413,11 @@ pie title Tests per test project
 
 ---
 
-## Read a 204
+## Use it in your project
+
+Reference `EdiMorph.X12`. That package already contains the X12 004010 204 standard. Your project adds only the differences for one implementation guide: a profile, override `.rule` files, and one C# class for checks that compare fields. The read still returns the same 004010 204 canonical model, `LoadTender`.
+
+### Read the standard 204
 
 ```csharp
 using EdiMorph;
@@ -437,26 +440,157 @@ var specification = await compiler.CompileAsync(
     new SpecificationRequest("X12", "004010", "204"));
 
 var result = await new X12Reader().ReadAsync(specification, rules, interchange);
-if (result.IsSuccess)
+var tender = result.LoadTenders[0];
+```
+
+`result.Transactions` contains each parsed 204. `result.LoadTenders` is that list mapped to `LoadTender`. `result.Diagnostics` lists every failure, and a failed 204 is still mapped. A short or malformed ISA returns an empty list.
+
+`Transaction204` keeps X12 segments. `Beginning` is B2, `Stops` is loop 0300, and a segment the 204 structure does not name is an extension on the node where it appeared. `LoadTender` names carrier, purpose, references, parties, equipment, and stops. The same unnamed segment stays on `LoadTender.Extensions`.
+
+### Add the Tidat guide
+
+Tidat accepts a 004010 204 and tightens two points: purpose codes, and a pickup stop that must name the ship-from party. Put the profile next to your code. The package does not contain it.
+
+`profiles/tidat/profile.rule`
+
+```json
 {
-    var carrier = result.LoadTenders[0].Carrier;
+  "ruleFormatVersion": 1,
+  "id": "tidat.profile.204",
+  "kind": "provider-profile",
+  "format": "X12",
+  "version": "004010",
+  "provider": "Tidat",
+  "profileRevision": "1.0",
+  "compliance": "standard-subset",
+  "transactions": ["204"],
+  "overrides": ["tidat.204.b2a"],
+  "customRules": ["TIDAT_204_PICKUP_PARTY"]
 }
 ```
 
-`result.Transactions` contains each parsed 204. `result.LoadTenders` is that list mapped to the 004010 `LoadTender`. `result.Diagnostics` lists every standard failure, and a failed 204 is still mapped. A provider profile is a `SpecificationRequest` with a provider name and profile revision, plus that profile's `.rule` files added to the same catalog. Those files are not part of this package.
+`profiles/tidat/B2A.override.rule` restricts the purpose element. Another element is another file, added to `overrides`.
 
-`Transaction204` keeps X12 segments. `Beginning` is B2, `Stops` is loop 0300, and a segment the 204 structure does not name is an extension on the node where it appeared. `LoadTender` names carrier, purpose, references, parties, equipment, and stops. The same unnamed segment stays on `LoadTender.Extensions`. The host maps `LoadTender` into its own model.
+```json
+{
+  "ruleFormatVersion": 1,
+  "id": "tidat.204.b2a",
+  "kind": "segment-override",
+  "extends": "x12.segment.B2A.v4010",
+  "operations": [
+    {
+      "op": "restrictAllowedValues",
+      "target": "elements.01",
+      "allowedValues": ["00", "04"]
+    }
+  ]
+}
+```
 
----
+A comparison between segments stays in one class for that transaction guide.
 
-## AI usage
+```csharp
+using EdiMorph.Diagnostics;
+using EdiMorph.Rules;
+using EdiMorph.Specifications.X12;
 
-The architecture decisions in this library are mine: one specification per format, version, and transaction; JSON for local constraints; C# for cross-field rules; a version-scoped 004010 `LoadTender`, with the host's own model kept outside the library.
+public sealed class Tidat204Guide : IRuleValidator<X12TransactionSet>
+{
+    public const string RuleId = "TIDAT_204_PICKUP_PARTY";
 
-I used AI to help generate:
+    public ValueTask<RuleResult> ValidateAsync(
+        X12TransactionSet subject,
+        RuleContext context,
+        CancellationToken cancellationToken = default)
+    {
+        var failures = new List<SpecificationDiagnostic>();
+        var stops = new List<List<X12Segment>>();
+        List<X12Segment>? current = null;
+        foreach (var segment in subject.Segments)
+        {
+            if (segment.Tag == "S5")
+            {
+                current = [segment];
+                stops.Add(current);
+                continue;
+            }
 
-- the implementation of the compiler, handlers, and reader
-- the unit tests, following [my unit testing standards](https://github.com/TuralSuleymani/Rovio.Matchmaking/blob/master/docs/prompts/coding_standards/unit-testing-standards.md)
-- the Mermaid diagrams and this README
+            current?.Add(segment);
+        }
 
-The overall system design remains mine.
+        foreach (var stop in stops)
+        {
+            if (!stop[0].Elements.TryGetValue("02", out var reason) || reason != "LD")
+            {
+                continue;
+            }
+
+            foreach (var party in stop.Where(segment => segment.Tag == "N1"))
+            {
+                party.Elements.TryGetValue("01", out var role);
+                if (role != "SF")
+                {
+                    failures.Add(new SpecificationDiagnostic(
+                        DiagnosticCodes.TransactionSyntax,
+                        DiagnosticSeverity.Error,
+                        DiagnosticCategory.ProviderPolicy,
+                        "Pickup stop requires the ship-from party.",
+                        RuleId,
+                        target: "N101"));
+                }
+            }
+        }
+
+        return ValueTask.FromResult(failures.Count == 0
+            ? RuleResult.Success
+            : RuleResult.Fail(failures));
+    }
+}
+
+public static class TidatRules
+{
+    public static void Register(IRuleRegistry registry)
+    {
+        registry.Register(RuleHandlerDescriptor.Create<Tidat204Guide, X12TransactionSet>(
+            Tidat204Guide.RuleId,
+            RuleScope.Provider,
+            mandatory: false,
+            format: "X12",
+            version: "004010",
+            transaction: "204",
+            provider: "Tidat"));
+    }
+}
+```
+
+Register the guide, add the profile directory to the same catalog, and name Tidat on the request. The revision must match `profileRevision`.
+
+```csharp
+X12V4010Rules.Register(rules);
+TidatRules.Register(rules);
+
+catalog.Add(new InMemorySpecificationSource(documents));
+catalog.Add(new FileSystemSpecificationSource(tidatProfileDirectory));
+
+var specification = await compiler.CompileAsync(
+    new SpecificationRequest("X12", "004010", "204", "Tidat", "1.0"));
+
+var result = await new X12Reader().ReadAsync(specification, rules, interchange);
+```
+
+A purpose outside `00` and `04` is `EDI1203`. A pickup party other than `SF` is `EDI1103` with category `ProviderPolicy`. Either way the parsed 204 is still mapped.
+
+### Take the LoadTender
+
+```csharp
+using EdiMorph.Specifications.X12.V4010.Transactions;
+
+LoadTender tender = result.LoadTenders[0];
+string? carrier = tender.Carrier;
+string? shipmentId = tender.ShipmentId;
+string? purpose = tender.Purpose;
+TenderStop pickup = tender.Stops[0];
+string? party = pickup.Party?.Role;
+```
+
+`LoadTender` is the 004010 204 canonical model. Carrier, shipment id, payment method, purpose, references, parties, equipment, and stops are named properties. Your application maps that object into its own load. A Tidat read returns this same type.
