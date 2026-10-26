@@ -44,6 +44,16 @@ internal static class X12InterchangeFactory
 
     public const string ExtensionValue = "EXTRA";
 
+    public const string ReferenceQualifier = "VD";
+
+    public const string ReferenceValue = "T5174653";
+
+    public const string StopWeight = "100";
+
+    public const string DisagreeingShipmentWeight = "200";
+
+    public const string WeightUnit = "L";
+
     public const string SenderId = "SENDER";
 
     public const string ReceiverId = "RECEIVER";
@@ -115,6 +125,28 @@ internal static class X12InterchangeFactory
             Purpose(),
             Stop(FirstStop),
             $"{ExtensionTag}*{ExtensionValue}"
+        ]);
+    }
+
+    public static string WithReference()
+    {
+        return Create(
+        [
+            Beginning(CarrierCode),
+            Purpose(),
+            $"L11*{ReferenceValue}*{ReferenceQualifier}",
+            Stop(FirstStop)
+        ]);
+    }
+
+    public static string WithDisagreeingStopWeight()
+    {
+        return Create(
+        [
+            Beginning(CarrierCode),
+            Purpose(),
+            $"S5*{FirstStop}*{Pickup}*{StopWeight}*{WeightUnit}",
+            $"AT8*G*{WeightUnit}*{DisagreeingShipmentWeight}"
         ]);
     }
 
