@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>EdiMorph</RootNamespace>
+    <Description>Contracts for specification requests, diagnostics, and rule handlers.</Description>
   </PropertyGroup>
 
 </Project>

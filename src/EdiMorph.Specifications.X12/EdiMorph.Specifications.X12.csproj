@@ -4,6 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Description>X12 004010 rule documents, syntax handlers, and the typed 204 transaction.</Description>
   </PropertyGroup>
 
   <ItemGroup>

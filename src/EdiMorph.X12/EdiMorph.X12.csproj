@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>EdiMorph.X12</RootNamespace>
+    <Description>X12 reader for a compiled 004010 204 interchange.</Description>
   </PropertyGroup>
 
   <ItemGroup>
