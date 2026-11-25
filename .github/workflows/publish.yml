@@ -1,0 +1,120 @@
+name: Publish NuGet
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nuget-release-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+jobs:
+  release-version:
+    name: Validate release tag
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Validate version and release ancestry
+        id: version
+        shell: pwsh
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          IS_PRERELEASE: ${{ github.event.release.prerelease }}
+        run: |
+          if ($env:RELEASE_TAG -notmatch '^v((0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?)$') {
+            throw 'Use a version tag such as v0.3.0 or v0.3.0-preview.1.'
+          }
+          $version = $Matches[1]
+          [xml]$props = Get-Content -Raw Directory.Build.props
+          if ($version -ne [string]$props.Project.PropertyGroup.Version) {
+            throw 'The tag version must exactly match Directory.Build.props at the release commit.'
+          }
+          if ($version.Contains('-') -ne ($env:IS_PRERELEASE -eq 'true')) {
+            throw 'The GitHub prerelease flag must match the version suffix.'
+          }
+          git merge-base --is-ancestor HEAD origin/master
+          if ($LASTEXITCODE -ne 0) { throw 'Release commits must be on master history.' }
+          "version=$version" >> $env:GITHUB_OUTPUT
+
+  packages:
+    name: Verify release packages
+    needs: release-version
+    uses: ./.github/workflows/ci.yml
+    with:
+      package-version: ${{ needs.release-version.outputs.version }}
+    permissions:
+      contents: read
+
+  publish:
+    name: Publish all four packages
+    needs: [release-version, packages]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: nuget
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: 10.0.x
+      - name: Download the tested packages
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: nuget-packages
+          path: packages
+      - name: Verify package checksums and identities
+        shell: pwsh
+        env:
+          PACKAGE_VERSION: ${{ needs.release-version.outputs.version }}
+        run: |
+          $ids = @('EdiMorph.Abstractions', 'EdiMorph.Specifications', 'EdiMorph.Specifications.X12', 'EdiMorph.X12')
+          $expected = @($ids | ForEach-Object { "$_.${env:PACKAGE_VERSION}.nupkg" })
+          $actual = @(Get-ChildItem packages -Filter '*.nupkg')
+          if ($actual.Count -ne 4 -or @(Compare-Object $expected $actual.Name).Count -gt 0) {
+            throw 'Release artifact must contain exactly the four expected packages.'
+          }
+          $checksums = @(Get-Content packages/SHA256SUMS)
+          if ($checksums.Count -ne 4) { throw 'Invalid checksum manifest.' }
+          $seen = @{}
+          foreach ($line in $checksums) {
+            if ($line -notmatch '^([0-9a-f]{64})  ([A-Za-z0-9.-]+\.nupkg)$') { throw 'Invalid checksum entry.' }
+            $hash, $name = $Matches[1], $Matches[2]
+            if ($name -notin $expected -or $seen.ContainsKey($name)) { throw 'Unexpected or duplicate checksum entry.' }
+            $seen[$name] = $true
+            if ((Get-FileHash "packages/$name" -Algorithm SHA256).Hash.ToLowerInvariant() -ne $hash) {
+              throw "Checksum mismatch: $name"
+            }
+          }
+      - name: Check publishing configuration
+        shell: pwsh
+        env:
+          NUGET_USER: ${{ vars.NUGET_USER }}
+        run: |
+          if ([string]::IsNullOrWhiteSpace($env:NUGET_USER)) {
+            throw 'Set the NUGET_USER variable and configure the nuget.org trusted publishing policy.'
+          }
+      - name: Authenticate to nuget.org using GitHub OIDC
+        id: login
+        uses: NuGet/login@ebc737b6fc418a6ca0073cf116ec8dc156d8b81e # v1
+        with:
+          user: ${{ vars.NUGET_USER }}
+      - name: Publish tested artifacts without rebuilding
+        shell: pwsh
+        env:
+          NUGET_API_KEY: ${{ steps.login.outputs.NUGET_API_KEY }}
+        run: |
+          foreach ($package in Get-ChildItem packages -Filter '*.nupkg' | Sort-Object Name) {
+            dotnet nuget push $package.FullName --source https://api.nuget.org/v3/index.json `
+              --api-key $env:NUGET_API_KEY --skip-duplicate
+            if ($LASTEXITCODE -ne 0) { throw "Publishing failed: $($package.Name)" }
+          }

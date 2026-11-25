@@ -1,0 +1,9 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "tidat.204.b2a",
+  "kind": "segment-override",
+  "extends": "x12.segment.B2A.v4010",
+  "operations": [
+    { "op": "restrictAllowedValues", "target": "elements.01", "allowedValues": ["00", "01", "04", "15"] }
+  ]
+}

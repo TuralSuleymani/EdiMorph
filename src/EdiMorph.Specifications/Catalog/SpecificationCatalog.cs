@@ -38,14 +38,14 @@ public sealed class FileSystemSpecificationSource : ISpecificationSource
     {
         var root = Path.GetFullPath(_root);
         return Directory.EnumerateFiles(root, "*.rule", SearchOption.AllDirectories)
-            .Where(path => !IsBuildOutput(path))
+            .Where(path => !IsBuildOutput(RelativePath(root, path)))
             .Select(path => new SpecificationText(RelativePath(root, path), File.ReadAllText(path)))
             .ToArray();
     }
 
     private static bool IsBuildOutput(string path)
     {
-        var normalized = path.Replace('\\', '/');
+        var normalized = "/" + path.Replace('\\', '/');
         return normalized.Contains("/bin/", StringComparison.OrdinalIgnoreCase)
             || normalized.Contains("/obj/", StringComparison.OrdinalIgnoreCase);
     }

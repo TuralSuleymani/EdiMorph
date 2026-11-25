@@ -1,0 +1,9 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "tidat.204.s5",
+  "kind": "segment-override",
+  "extends": "x12.segment.S5.v4010",
+  "operations": [
+    { "op": "restrictAllowedValues", "target": "elements.02", "allowedValues": ["LD", "UL", "PA", "DT"] }
+  ]
+}

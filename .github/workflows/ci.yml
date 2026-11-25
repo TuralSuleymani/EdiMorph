@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      package-version:
+        description: Exact release version; omitted for uniquely versioned CI candidates.
+        required: false
+        type: string
+        default: ''
+    outputs:
+      package-version:
+        description: Version of the tested packages.
+        value: ${{ jobs.build.outputs.version }}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Build, test, and pack
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Check out source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Install .NET 10
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: 10.0.x
+      - name: Determine package version
+        id: version
+        env:
+          REQUESTED_VERSION: ${{ inputs.package-version }}
+        run: |
+          [xml]$props = Get-Content -Raw Directory.Build.props
+          $baseVersion = [string]$props.Project.PropertyGroup.Version
+          if ([string]::IsNullOrEmpty($env:REQUESTED_VERSION)) {
+            $core = $baseVersion.Split('-')[0]
+            $version = "$core-ci.$env:GITHUB_RUN_ID.$env:GITHUB_RUN_ATTEMPT"
+          } else {
+            $version = $env:REQUESTED_VERSION
+            if ($version -ne $baseVersion) { throw 'Release version must match Directory.Build.props.' }
+          }
+          "version=$version" >> $env:GITHUB_OUTPUT
+      - name: Build and test all NuGet packages and their consumer
+        env:
+          PACKAGE_VERSION: ${{ steps.version.outputs.version }}
+        run: ./eng/Build-Packages.ps1 -Version $env:PACKAGE_VERSION
+      - name: Upload verified packages
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: nuget-packages
+          path: artifacts/packages/${{ steps.version.outputs.version }}/*
+          if-no-files-found: error
+          retention-days: 30
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: test-results
+          path: |
+            artifacts/test-results/*.trx
+            artifacts/package-tests/results/*.trx
+          if-no-files-found: ignore
+          retention-days: 14
