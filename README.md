@@ -308,6 +308,8 @@ EdiMorph/
 
 Prerequisites: the .NET 10 SDK.
 
+All release packages are built and tested by GitHub Actions. Pull requests produce downloadable package candidates; publishing a matching GitHub Release publishes the four verified packages to nuget.org. See [CI/CD and release setup](docs/releasing.md) for the one-time trusted publishing configuration and release procedure.
+
 Install the reader:
 
 ```xml
@@ -321,7 +323,7 @@ dotnet test EdiMorph.slnx
 dotnet pack EdiMorph.slnx -c Release -o artifacts
 ```
 
-`dotnet pack` produces the four packages. Test projects set `IsPackable` to false.
+`dotnet pack` produces the four packages for local development only. Test and sample projects set `IsPackable` to false. To exercise the full CI pipeline locally, including tests against the actual packages, run `./eng/Build-Packages.ps1 -Version 0.3.0-preview.2` in PowerShell 7. Published versions must come from the GitHub release workflow.
 
 A provider setup that ends at the 004010 204 `LoadTender` is in [Use it in your project](#use-it-in-your-project).
 
@@ -449,136 +451,26 @@ var tender = result.LoadTenders[0];
 
 ### Add the Tidat guide
 
-Tidat accepts a 004010 204 and tightens two points: purpose codes, and a pickup stop that must name the ship-from party. Put the profile next to your code. The package does not contain it.
-
-`profiles/tidat/profile.rule`
-
-```json
-{
-  "ruleFormatVersion": 1,
-  "id": "tidat.profile.204",
-  "kind": "provider-profile",
-  "format": "X12",
-  "version": "004010",
-  "provider": "Tidat",
-  "profileRevision": "1.0",
-  "compliance": "standard-subset",
-  "transactions": ["204"],
-  "overrides": ["tidat.204.b2a"],
-  "customRules": ["TIDAT_204_PICKUP_PARTY"]
-}
-```
-
-`profiles/tidat/B2A.override.rule` restricts the purpose element. Another element is another file, added to `overrides`.
-
-```json
-{
-  "ruleFormatVersion": 1,
-  "id": "tidat.204.b2a",
-  "kind": "segment-override",
-  "extends": "x12.segment.B2A.v4010",
-  "operations": [
-    {
-      "op": "restrictAllowedValues",
-      "target": "elements.01",
-      "allowedValues": ["00", "04"]
-    }
-  ]
-}
-```
-
-A comparison between segments stays in one class for that transaction guide.
+The runnable [Tidat consumer example](samples/Tidat.Consumer/README.md) retains the existing Tidat name and uses the supplied Ditat Outbound 204 v4010 guide (V1.01 change log). It has a real `PackageReference`, consumer-side profiles, C# validation, a synthetic interchange, and package-consumer tests.
 
 ```csharp
-using EdiMorph.Diagnostics;
-using EdiMorph.Rules;
-using EdiMorph.Specifications.X12;
-
-public sealed class Tidat204Guide : IRuleValidator<X12TransactionSet>
+var reader = new Tidat204Reader(tidatProfileDirectory);
+var result = await reader.ReadAsync(interchange, cancellationToken);
+if (!result.IsSuccess)
 {
-    public const string RuleId = "TIDAT_204_PICKUP_PARTY";
-
-    public ValueTask<RuleResult> ValidateAsync(
-        X12TransactionSet subject,
-        RuleContext context,
-        CancellationToken cancellationToken = default)
-    {
-        var failures = new List<SpecificationDiagnostic>();
-        var stops = new List<List<X12Segment>>();
-        List<X12Segment>? current = null;
-        foreach (var segment in subject.Segments)
-        {
-            if (segment.Tag == "S5")
-            {
-                current = [segment];
-                stops.Add(current);
-                continue;
-            }
-
-            current?.Add(segment);
-        }
-
-        foreach (var stop in stops)
-        {
-            if (!stop[0].Elements.TryGetValue("02", out var reason) || reason != "LD")
-            {
-                continue;
-            }
-
-            foreach (var party in stop.Where(segment => segment.Tag == "N1"))
-            {
-                party.Elements.TryGetValue("01", out var role);
-                if (role != "SF")
-                {
-                    failures.Add(new SpecificationDiagnostic(
-                        DiagnosticCodes.TransactionSyntax,
-                        DiagnosticSeverity.Error,
-                        DiagnosticCategory.ProviderPolicy,
-                        "Pickup stop requires the ship-from party.",
-                        RuleId,
-                        target: "N101"));
-                }
-            }
-        }
-
-        return ValueTask.FromResult(failures.Count == 0
-            ? RuleResult.Success
-            : RuleResult.Fail(failures));
-    }
+    // Reject or quarantine; failed transactions may still have partial models.
+    return;
 }
 
-public static class TidatRules
+foreach (var tender in result.LoadTenders)
 {
-    public static void Register(IRuleRegistry registry)
-    {
-        registry.Register(RuleHandlerDescriptor.Create<Tidat204Guide, X12TransactionSet>(
-            Tidat204Guide.RuleId,
-            RuleScope.Provider,
-            mandatory: false,
-            format: "X12",
-            version: "004010",
-            transaction: "204",
-            provider: "Tidat"));
-    }
+    // Map this version-scoped LoadTender into your application model.
 }
 ```
 
-Register the guide, add the profile directory to the same catalog, and name Tidat on the request. The revision must match `profileRevision`.
+The guide permits purpose codes `00`, `01`, `04`, and `15`, including cancellation and reissue. It distinguishes heading parties (`BT`/`SH`) from stop parties (`SF`/`ST`), and supports `PA`/`DT` drop-and-hook stops. The previous two-purpose-code example was illustrative and did not represent this guide.
 
-```csharp
-X12V4010Rules.Register(rules);
-TidatRules.Register(rules);
-
-catalog.Add(new InMemorySpecificationSource(documents));
-catalog.Add(new FileSystemSpecificationSource(tidatProfileDirectory));
-
-var specification = await compiler.CompileAsync(
-    new SpecificationRequest("X12", "004010", "204", "Tidat", "1.0"));
-
-var result = await new X12Reader().ReadAsync(specification, rules, interchange);
-```
-
-A purpose outside `00` and `04` is `EDI1203`. A pickup party other than `SF` is `EDI1103` with category `ProviderPolicy`. Either way the parsed 204 is still mapped.
+The adaptation stays outside the shipping packages. Where the supplied guide departs from the packaged standard (B206 presence and the stop-contact limit), its profile explicitly selects `partner-dialect` and cites the parent rules. See the example's documented coverage, source inconsistencies, and remaining limitations before using it in production.
 
 ### Take the LoadTender
 

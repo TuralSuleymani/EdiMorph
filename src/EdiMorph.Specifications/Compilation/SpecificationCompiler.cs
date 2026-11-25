@@ -501,6 +501,12 @@ internal static class SpecificationComposer
                 case "changeOccurrence":
                     transaction = ChangeOccurrence(entry, operation, transaction, diagnostics);
                     break;
+                case "loosenOccurrence":
+                    if (DepartureIsNamed(entry, operation, compliance, diagnostics))
+                    {
+                        transaction = ChangeOccurrence(entry, operation, transaction, diagnostics, allowLoosen: true);
+                    }
+                    break;
                 case "addSegment":
                     transaction = AddSegment(entry, operation, compliance, transaction, diagnostics);
                     break;
@@ -649,7 +655,8 @@ internal static class SpecificationComposer
         CatalogEntry entry,
         OverrideOperation operation,
         CompiledTransaction? transaction,
-        List<SpecificationDiagnostic> diagnostics)
+        List<SpecificationDiagnostic> diagnostics,
+        bool allowLoosen = false)
     {
         if (transaction is null || operation.Target is null)
         {
@@ -666,7 +673,7 @@ internal static class SpecificationComposer
             }
 
             found = true;
-            if (LoosensOccurrence(node, operation))
+            if (!allowLoosen && LoosensOccurrence(node, operation))
             {
                 diagnostics.Add(Policy(
                     DiagnosticCodes.StandardLoosened,

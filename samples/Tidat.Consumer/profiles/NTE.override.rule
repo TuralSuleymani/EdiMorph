@@ -1,0 +1,9 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "tidat.204.nte",
+  "kind": "segment-override",
+  "extends": "x12.segment.NTE.v4010",
+  "operations": [
+    { "op": "restrictAllowedValues", "target": "elements.01", "allowedValues": ["OTH"] }
+  ]
+}

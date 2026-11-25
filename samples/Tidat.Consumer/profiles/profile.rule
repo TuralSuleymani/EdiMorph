@@ -1,0 +1,13 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "tidat.profile.204",
+  "kind": "provider-profile",
+  "format": "X12",
+  "version": "004010",
+  "provider": "Tidat",
+  "profileRevision": "1.01",
+  "compliance": "partner-dialect",
+  "transactions": ["204"],
+  "overrides": ["tidat.204.b2a", "tidat.204.s5", "tidat.204.b2", "tidat.204.structure", "tidat.204.nte"],
+  "customRules": ["TIDAT_204_GUIDE"]
+}

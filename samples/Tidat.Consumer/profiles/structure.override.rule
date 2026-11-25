@@ -1,0 +1,17 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "tidat.204.structure",
+  "kind": "transaction-override",
+  "extends": "x12.v4010.transaction.204",
+  "operations": [
+    { "op": "changeOccurrence", "target": "heading.0100.N3", "minOccurs": 1 },
+    { "op": "changeOccurrence", "target": "heading.0100.N4", "minOccurs": 1 },
+    { "op": "changeOccurrence", "target": "detail.0300.AT5", "maxOccurs": 0 },
+    {
+      "op": "loosenOccurrence",
+      "target": "detail.0300.0310.G61",
+      "maxOccurs": 4,
+      "departsFrom": "x12.v4010.transaction.204"
+    }
+  ]
+}

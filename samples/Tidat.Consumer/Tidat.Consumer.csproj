@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <EdiMorphPackageVersion Condition="'$(EdiMorphPackageVersion)' == ''">0.3.0-preview.2</EdiMorphPackageVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="EdiMorph.X12" Version="$(EdiMorphPackageVersion)" />
+    <None Update="profiles/**/*.rule;fixtures/*.edi" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

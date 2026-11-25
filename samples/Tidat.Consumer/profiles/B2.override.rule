@@ -1,0 +1,14 @@
+{
+  "ruleFormatVersion": 1,
+  "id": "tidat.204.b2",
+  "kind": "segment-override",
+  "extends": "x12.segment.B2.v4010",
+  "operations": [
+    {
+      "op": "loosenUsage",
+      "target": "elements.06",
+      "usage": "O",
+      "departsFrom": "x12.segment.B2.v4010"
+    }
+  ]
+}

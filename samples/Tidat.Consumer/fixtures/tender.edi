@@ -1,0 +1,35 @@
+ISA*00*          *00*          *02*EXAMPLE        *02*RECEIVER       *261125*1200*U*00401*000000001*0*T*>~
+GS*SM*EXAMPLE*RECEIVER*20261125*1200*1*X*004010~
+ST*204*0001~
+B2**SCAC**TR-EXAMPLE-01~
+B2A*00~
+L11*CUSTOMER01*CC~
+L11*EXAMPLE-REF*ZZ*R1~
+G62*64*20261125*1*1200*CT~
+N1*BT*Example Billing~
+N3*100 Example Road~
+N4*Example City*MO*12345*USA~
+N1*SH*Example Shipper~
+N3*101 Example Road~
+N4*Example City*MO*12345*USA~
+S5*1*LD~
+L11*APPT01*AO~
+G62*98*20261126*EP*0800*LT~
+NTE*OTH*Pickup instructions~
+N1*SF*Example Pickup*ZZ*PICKUP01~
+N3*200 Example Road~
+N4*Example City*MO*12345*USA~
+G61*IC*Example Contact*TE*5550101~
+G61*IC*Example Contact*TE*5550102~
+G61*IC*Example Contact*TE*5550103~
+G61*IC*Example Contact*EM*contact@example.invalid~
+L5*1*Example freight****2*ZZ~
+AT8*G*L*100*1*2*E*3~
+S5*2*UL~
+G62*99*20261127*ED*0800*LT~
+N1*ST*Example Delivery*ZZ*DELIVERY01~
+N3*300 Example Road~
+N4*Example City*IL*54321*USA~
+SE*31*0001~
+GE*1*1~
+IEA*1*000000001~
